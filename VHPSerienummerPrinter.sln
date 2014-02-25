@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VHPSierienummerPrinter", "VHPLabelPrinter\VHPSierienummerPrinter.csproj", "{F122F81B-191E-4AC0-959E-29F0BD43C363}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VHPSerienummerPrinter", "VHPSerienummerPrinter\VHPSerienummerPrinter.csproj", "{F122F81B-191E-4AC0-959E-29F0BD43C363}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
