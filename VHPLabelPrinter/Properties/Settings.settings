@@ -1,0 +1,39 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="VHPSierienummerPrinter.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="CustomPrinter" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Brother QL-500</Value>
+    </Setting>
+    <Setting Name="LinkerMarge" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="RechterMarge" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="UseCustomPrinter" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="UseCustomPaper" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="CustomLabel" Type="System.String" Scope="User">
+      <Value Profile="(Default)">62mm x 29mm</Value>
+    </Setting>
+    <Setting Name="BovenMarge" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="OnderMarge" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="LinkerMargeDrager" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">3.3</Value>
+    </Setting>
+    <Setting Name="RechterMargeDrager" Type="System.Single" Scope="User">
+      <Value Profile="(Default)">3.3</Value>
+    </Setting>
+    <Setting Name="FontFamily" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Corbel</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
