@@ -33,7 +33,7 @@ namespace VHPSerienummerPrinter.Printing
 
         private const float hoogteCeLogo = 23.64F;
         private const float breedteCeLogo = 31.52F;
-        private const float margeTussenLogoEnTekst = 9F;
+        private const float margeTussenLogoEnTekst = 0F;
 
         private int labelIndex = -1;
         private int lastPageIndex;
@@ -91,23 +91,64 @@ namespace VHPSerienummerPrinter.Printing
 
         private void PrintSerienummerLabel(Graphics g, SerienummerInfo label)
         {
+            var breedteLinkerKolom = BepaalBreedte(g, label);
+            //RectangleF rect = PrintVHPLogo(g, DragerMargeLinks);
+            //rect = PrintString(stuklijst.Product, TitleFont, g, rect.Right + margeTussenLogoEnTekst, LabelMargeBoven + margeTussenLogoEnTekst);
+            //rect = PrintString(string.Format("{0}: {1}", stuklijst.Item1Label.PadRight(4), label.Item1), Font, g, rect.Left, rect.Bottom);
+            //rect = PrintString(string.Format("{0}: {1}", stuklijst.Item2Label.PadRight(4), label.Item2), Font, g, rect.Left, rect.Bottom);
+            //rect = PrintString(string.Format("{0}: {1}", stuklijst.Item3Label.PadRight(4), label.Item3), Font, g, rect.Left, rect.Bottom);
+            //rect = PrintString(string.Format("{0}: {1}", stuklijst.Item4Label.PadRight(4), label.Item4), Font, g, rect.Left, rect.Bottom);
+            //if (stuklijst.PrintCeLogo)
+            //    PrintCELogo(g, breedteLabel + DragerMargeLinks, hoogteLabel);
+
             RectangleF rect = PrintVHPLogo(g, DragerMargeLinks);
             rect = PrintString(stuklijst.Product, TitleFont, g, rect.Right + margeTussenLogoEnTekst, LabelMargeBoven + margeTussenLogoEnTekst);
-            rect = PrintString(string.Format("{0}: {1}", stuklijst.Item1Label.PadRight(4), label.Item1), Font, g, rect.Left, rect.Bottom);
-            rect = PrintString(string.Format("{0}: {1}", stuklijst.Item2Label.PadRight(4), label.Item2), Font, g, rect.Left, rect.Bottom);
-            rect = PrintString(string.Format("{0}: {1}", stuklijst.Item3Label.PadRight(4), label.Item3), Font, g, rect.Left, rect.Bottom);
-            rect = PrintString(string.Format("{0}: {1}", stuklijst.Item4Label.PadRight(4), label.Item4), Font, g, rect.Left, rect.Bottom);
+            
+            //linker kolom linker label
+            var leftRect = rect;
+            leftRect = PrintString(stuklijst.Item1Label, Font, g, leftRect.Left, leftRect.Bottom);
+            leftRect = PrintString(stuklijst.Item2Label, Font, g, leftRect.Left, leftRect.Bottom);
+            leftRect = PrintString(stuklijst.Item3Label, Font, g, leftRect.Left, leftRect.Bottom);
+            leftRect = PrintString(stuklijst.Item4Label, Font, g, leftRect.Left, leftRect.Bottom);
+
+            //rechter kolom linker label
+            RectangleF rightRect = new RectangleF(rect.Left+breedteLinkerKolom,rect.Top,rect.Width, rect.Height);
+            rightRect = PrintString(string.Format(": {0}", label.Item1), Font, g, rightRect.Left, rightRect.Bottom);
+            rightRect = PrintString(string.Format(": {0}", label.Item2), Font, g, rightRect.Left, rightRect.Bottom);
+            rightRect = PrintString(string.Format(": {0}", label.Item3), Font, g, rightRect.Left, rightRect.Bottom);
+            rightRect = PrintString(string.Format(": {0}", label.Item4), Font, g, rightRect.Left, rightRect.Bottom);
             if (stuklijst.PrintCeLogo)
                 PrintCELogo(g, breedteLabel + DragerMargeLinks, hoogteLabel);
 
             rect = PrintVHPLogo(g, DragerMargeLinks + breedteLabel + DragerMargeMidden);
             rect = PrintString(stuklijst.Product, TitleFont, g, rect.Right + margeTussenLogoEnTekst, LabelMargeBoven + margeTussenLogoEnTekst);
-            rect = PrintString(string.Format("{0}: {1}", stuklijst.Item1Label, label.Item1), Font, g, rect.Left, rect.Bottom);
-            rect = PrintString(string.Format("{0}: {1}", stuklijst.Item2Label, label.Item2), Font, g, rect.Left, rect.Bottom);
-            rect = PrintString(string.Format("{0}: {1}", stuklijst.Item3Label, label.Item3), Font, g, rect.Left, rect.Bottom);
-            rect = PrintString(string.Format("{0}: {1}", stuklijst.Item4Label, label.Item4), Font, g, rect.Left, rect.Bottom);
+            
+            //linker kolom rechter label
+            leftRect = rect;
+            leftRect = PrintString(stuklijst.Item1Label, Font, g, leftRect.Left, leftRect.Bottom);
+            leftRect = PrintString(stuklijst.Item2Label, Font, g, leftRect.Left, leftRect.Bottom);
+            leftRect = PrintString(stuklijst.Item3Label, Font, g, leftRect.Left, leftRect.Bottom);
+            leftRect = PrintString(stuklijst.Item4Label, Font, g, leftRect.Left, leftRect.Bottom);
+
+            //rechter kolom rechter label
+            rightRect = new RectangleF(rect.Left + breedteLinkerKolom, rect.Top, rect.Width, rect.Height);
+            rightRect = PrintString(string.Format(": {0}", label.Item1), Font, g, rightRect.Left, rightRect.Bottom);
+            rightRect = PrintString(string.Format(": {0}", label.Item2), Font, g, rightRect.Left, rightRect.Bottom);
+            rightRect = PrintString(string.Format(": {0}", label.Item3), Font, g, rightRect.Left, rightRect.Bottom);
+            rightRect = PrintString(string.Format(": {0}", label.Item4), Font, g, rightRect.Left, rightRect.Bottom);
             if (stuklijst.PrintCeLogo)
                 PrintCELogo(g, breedteDrager - DragerMargeRechts, hoogteLabel);
+        }
+
+        private float BepaalBreedte(Graphics g, SerienummerInfo label)
+        {
+            List<float> breedtes = new List<float>();
+            breedtes.Add(g.MeasureString(stuklijst.Item1Label, Font).Width);
+            breedtes.Add(g.MeasureString(stuklijst.Item2Label, Font).Width);
+            breedtes.Add(g.MeasureString(stuklijst.Item3Label, Font).Width);
+            breedtes.Add(g.MeasureString(stuklijst.Item4Label, Font).Width);
+            breedtes.Sort();
+            return breedtes[breedtes.Count - 1];
         }
 
         private void PrintLabelBounds(Graphics g)
@@ -221,6 +262,13 @@ namespace VHPSerienummerPrinter.Printing
         {
             g.DrawString(text, Font, Brushes.Black, left, top, new StringFormat());
 
+            RectangleF rect = new RectangleF(new PointF { X = left, Y = top }, g.MeasureString(text, Font));
+            return rect;
+        }
+
+
+        private RectangleF MeetString(string text, Font f, Graphics g, float left, float top)
+        {
             RectangleF rect = new RectangleF(new PointF { X = left, Y = top }, g.MeasureString(text, Font));
             return rect;
         }
