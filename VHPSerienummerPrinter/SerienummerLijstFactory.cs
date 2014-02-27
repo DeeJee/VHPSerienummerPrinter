@@ -23,7 +23,9 @@ namespace VHPSerienummerPrinter
         private const int kolomProduct = 5;
         private const int kolomFirmware = 6;
         private const int kolomType = 8;
-        private const int dataStartReadRow = 17;
+        private const int dataStartReadRow = 13;
+
+        private const int dataHeaderRow = 11;
         private const int logoRow = 6;
         private const int ceMarkRow = 7;
 
@@ -33,8 +35,18 @@ namespace VHPSerienummerPrinter
         private const int logoTitleColumn = 2;
         private const int logovalueColumn = 3;
 
+        private int item1Column;
+        private int item2Column;
+        private int item3Column;
+        private int item4Column;
+        private string item1Label;
+        private string item2Label;
+        private string item3Label;
+        private string item4Label;
+
+
         public string Message { get; set; }
-        public SerienummerLijst SerienummerLijst { get; set; }
+        public SerienummerLijst serienummerLijst { get; set; }
         private char? separator;
 
         /// <summary>
@@ -44,7 +56,7 @@ namespace VHPSerienummerPrinter
         /// <returns></returns>
         public bool Create(string file)
         {
-            SerienummerLijst = new SerienummerLijst();
+            serienummerLijst = new SerienummerLijst();
             List<string> lines = new List<string>();
 
             try
@@ -62,26 +74,30 @@ namespace VHPSerienummerPrinter
                 separator = DetermineSeparator(lines[0]);
 
                 //product bepalen
-                string[] cells = lines[1].Split(separator.Value);
-                SerienummerLijst.Product = cells[4].Replace("\"", string.Empty);
+                string[] cells = lines[0].Split(separator.Value);
+                serienummerLijst.Product = cells[13].Replace("\"", string.Empty);
 
                 //logo bepalen
                 string cell = lines[logoRow].Split(separator.Value)[logoTitleColumn];
                 if (cell.ToLower() == "logo")
                 {
-                    SerienummerLijst.LogoImage = lines[logoRow].Split(separator.Value)[logovalueColumn];
+                    serienummerLijst.LogoImage = lines[logoRow].Split(separator.Value)[logovalueColumn];
                 }
 
                 //bepalen of het CE logo afgedrukt moet worden
                 cell = lines[ceMarkRow].Split(separator.Value)[cemarkTitleColumn];
                 if (cell.ToLower() == "ce-mark")
                 {
-                    SerienummerLijst.PrintCeLogo = lines[ceMarkRow].Split(separator.Value)[cemarkValueColumn].ToLower() == "yes";
+                    serienummerLijst.PrintCeLogo = lines[ceMarkRow].Split(separator.Value)[cemarkValueColumn].ToLower() == "yes";
                 }
                 else
                 {
-                    SerienummerLijst.PrintCeLogo = true;
+                    serienummerLijst.PrintCeLogo = true;
                 }
+
+                BepaalItems(lines);
+
+
                 //labels bepalen
                 for (int lineNumber = dataStartReadRow; lineNumber < lines.Count; lineNumber++)
                 {
@@ -89,22 +105,21 @@ namespace VHPSerienummerPrinter
                     if (lineNumber < lines.Count)
                     {
                         cells = lines[lineNumber].Split(separator.Value);
-                        string jaar = cells[kolomJaar].Replace("\"", string.Empty); ;
-                        string batch = cells[kolomBatch].Replace("\"", string.Empty); ;
-                        string volgNummer = cells[kolomVolgnummer].Replace("\"", string.Empty); ;
-                        string serieNummer = cells[kolomSerieNummer].Replace("\"", string.Empty); ;
-                        string product = cells[kolomProduct].Replace("\"", string.Empty); ;
-                        string firmware = cells[kolomFirmware].Replace("\"", string.Empty); ;
-                        string type = cells[kolomType].Replace("\"", string.Empty); ;
+                        string jaar = cells[kolomJaar].Replace("\"", string.Empty);
+                        string batch = cells[kolomBatch].Replace("\"", string.Empty);
+                        string volgNummer = cells[kolomVolgnummer].Replace("\"", string.Empty);
 
-                        SerienummerLijst.AddSerienummer(jaar, batch, volgNummer, serieNummer, product, firmware, type);
+                        string item1 = cells[item1Column].Replace("\"", string.Empty);
+                        string item2 = cells[item2Column].Replace("\"", string.Empty);
+                        string item3 = cells[item3Column].Replace("\"", string.Empty);
+                        string item4 = cells[item4Column].Replace("\"", string.Empty);
 
-                        SerienummerLijst.AddSerienummer(jaar, batch, volgNummer, serieNummer, product, firmware, type);
+                        serienummerLijst.AddSerienummer(jaar, batch, volgNummer, item1, item2, item3, item4);
                     }
                 }
 
                 FileFinder finder = new FileFinder();
-                finder.Find(SerienummerLijst.LogoImage);
+                finder.Find(serienummerLijst.LogoImage);
             }
             catch (IOException ex)
             {
@@ -113,6 +128,36 @@ namespace VHPSerienummerPrinter
             }
 
             return true;
+        }
+
+        private void BepaalItems(List<string> lines)
+        {
+            serienummerLijst.Item1Label= lines[1].Split(separator.Value)[12];
+            serienummerLijst.Item2Label= lines[2].Split(separator.Value)[12];
+            serienummerLijst.Item3Label= lines[3].Split(separator.Value)[12];
+            serienummerLijst.Item4Label= lines[4].Split(separator.Value)[12];
+
+            string[] cells = lines[dataHeaderRow].Split(separator.Value);
+            for (int index = 0; index < cells.Length; index++)
+            {
+                string waarde = cells[index];
+                if (waarde == serienummerLijst.Item1Label)
+                {
+                    item1Column = index;
+                }
+                if (waarde == serienummerLijst.Item2Label)
+                {
+                    item2Column = index;
+                }
+                if (waarde == serienummerLijst.Item3Label)
+                {
+                    item3Column = index;
+                }
+                if (waarde == serienummerLijst.Item4Label)
+                {
+                    item4Column = index;
+                }
+            }
         }
 
         private char? DetermineSeparator(string line)

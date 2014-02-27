@@ -37,7 +37,7 @@ namespace VHPSerienummerPrinter
             bool gelukt = factory.Create(path);
             if (gelukt)
             {
-                serienummers = factory.SerienummerLijst;
+                serienummers = factory.serienummerLijst;
                 LoadSuccesful = true;
             }
             else
@@ -131,8 +131,11 @@ namespace VHPSerienummerPrinter
             LabelAantalItems.Text = serienummers.Labels.Count.ToString();
             foreach (SerienummerInfo info in serienummers.Labels)
             {
-                DdlVan.Items.Add(info.SerieNummer);
-                DdlTotEnMet.Items.Add(info.SerieNummer);
+                //TODO: probleem: kan niet weten welk item getoon moet worden in de dropdownlist
+                //DdlVan.Items.Add(info.SerieNummer);
+                //DdlTotEnMet.Items.Add(info.SerieNummer);
+                DdlVan.Items.Add(info.Item2);
+                DdlTotEnMet.Items.Add(info.Item2);
             }
         }
 

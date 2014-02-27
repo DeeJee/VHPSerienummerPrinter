@@ -9,11 +9,16 @@ namespace VHPSerienummerPrinter
     {
         public bool PrintCeLogo { get; set; }
         public string LogoImage { get; set; }
-     
+
         public string Product { get; set; }
 
         public int StartIndex { get; set; }
         public int EindIndex { get; set; }
+
+        public string Item1Label { get; set; }
+        public string Item2Label { get; set; }
+        public string Item3Label { get; set; }
+        public string Item4Label { get; set; }
 
         private List<SerienummerInfo> _labels;
         public List<SerienummerInfo> Labels
@@ -32,7 +37,7 @@ namespace VHPSerienummerPrinter
             {
                 //TODO: herschrijven. Deze code wordt veel te vaak uitgevoerd.
                 //if (_selectie == null)
-                    BepaalSelectie();
+                BepaalSelectie();
 
                 return _selectie;
             }
@@ -43,7 +48,7 @@ namespace VHPSerienummerPrinter
             //geen selectie gemaakt: alles uitprinten
             if (StartIndex == -1 && EindIndex == -1)
             {
-                _selectie= _labels;
+                _selectie = _labels;
             }
 
             //er is geen selectie gemaakt voor het eerste label dat moet worden geprint: neem het eerste label in de lijst
@@ -68,22 +73,9 @@ namespace VHPSerienummerPrinter
             Labels = new List<SerienummerInfo>();
         }
 
-        public void AddSerienummer(string jaar, string batch, string volgNummer, string serienummer, string Product, string firmware, string type)
+        public void AddSerienummer(string jaar, string batch, string volgNummer, string item1, string item2, string item3, string item4)
         {
-            _labels.Add(new SerienummerInfo(jaar, batch, volgNummer, serienummer, Product, firmware, type));
-        }
-
-        public void AddSerienummer(string jaar, string batch, string volgNummer, 
-            string label1, string item1,
-            string label2, string item2,
-            string label3, string item3,
-            string label4, string item4)
-        {
-            _labels.Add(new SerienummerInfo(jaar, batch, volgNummer, 
-                        new KeyValuePair<string,string>(label1, item1),
-                        new KeyValuePair<string, string>(label2, item2),
-                        new KeyValuePair<string, string>(label3, item3),
-                        new KeyValuePair<string, string>(label4, item4)));
+            _labels.Add(new SerienummerInfo(jaar, batch, volgNummer, item1, item2, item3, item4));
         }
     }
 }

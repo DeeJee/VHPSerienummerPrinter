@@ -29,7 +29,7 @@ namespace VHPSerienummerPrinter.Printing
         public float LabelMargeOnder { get { return ToCentiInches(Settings.Default.OnderMarge); } }
         private float DragerMargeLinks { get { return ToCentiInches(Settings.Default.LinkerMargeDrager); } }
         private float DragerMargeRechts { get { return ToCentiInches(Settings.Default.RechterMargeDrager); } }
-        private float DragerMargeMidden { get { return breedteDrager - DragerMargeLinks - DragerMargeRechts-2*breedteLabel; } }
+        private float DragerMargeMidden { get { return breedteDrager - DragerMargeLinks - DragerMargeRechts - 2 * breedteLabel; } }
 
         private const float hoogteCeLogo = 23.64F;
         private const float breedteCeLogo = 31.52F;
@@ -91,23 +91,21 @@ namespace VHPSerienummerPrinter.Printing
 
         private void PrintSerienummerLabel(Graphics g, SerienummerInfo label)
         {
-
-
             RectangleF rect = PrintVHPLogo(g, DragerMargeLinks);
             rect = PrintString(stuklijst.Product, TitleFont, g, rect.Right + margeTussenLogoEnTekst, LabelMargeBoven + margeTussenLogoEnTekst);
-            rect = PrintString(string.Format("type: {0}", label.Type), Font, g, rect.Left, rect.Bottom);
-            rect = PrintString(string.Format("SN  : {0}", label.SerieNummer), Font, g, rect.Left, rect.Bottom);
-            rect = PrintString(string.Format("HW  : {0}", label.Product), Font, g, rect.Left, rect.Bottom);
-            rect = PrintString(string.Format("FW  : {0}", label.Firmware), Font, g, rect.Left, rect.Bottom);
-            if(stuklijst.PrintCeLogo)
+            rect = PrintString(string.Format("{0}: {1}", stuklijst.Item1Label.PadRight(4), label.Item1), Font, g, rect.Left, rect.Bottom);
+            rect = PrintString(string.Format("{0}: {1}", stuklijst.Item2Label.PadRight(4), label.Item2), Font, g, rect.Left, rect.Bottom);
+            rect = PrintString(string.Format("{0}: {1}", stuklijst.Item3Label.PadRight(4), label.Item3), Font, g, rect.Left, rect.Bottom);
+            rect = PrintString(string.Format("{0}: {1}", stuklijst.Item4Label.PadRight(4), label.Item4), Font, g, rect.Left, rect.Bottom);
+            if (stuklijst.PrintCeLogo)
                 PrintCELogo(g, breedteLabel + DragerMargeLinks, hoogteLabel);
 
             rect = PrintVHPLogo(g, DragerMargeLinks + breedteLabel + DragerMargeMidden);
             rect = PrintString(stuklijst.Product, TitleFont, g, rect.Right + margeTussenLogoEnTekst, LabelMargeBoven + margeTussenLogoEnTekst);
-            rect = PrintString(string.Format("type: {0}", label.Type), Font, g, rect.Left, rect.Bottom);
-            rect = PrintString(string.Format("SN  : {0}", label.SerieNummer), Font, g, rect.Left, rect.Bottom);
-            rect = PrintString(string.Format("HW  : {0}", label.Product), Font, g, rect.Left, rect.Bottom);
-            rect = PrintString(string.Format("FW  : {0}", label.Firmware), Font, g, rect.Left, rect.Bottom);
+            rect = PrintString(string.Format("{0}: {1}", stuklijst.Item1Label, label.Item1), Font, g, rect.Left, rect.Bottom);
+            rect = PrintString(string.Format("{0}: {1}", stuklijst.Item2Label, label.Item2), Font, g, rect.Left, rect.Bottom);
+            rect = PrintString(string.Format("{0}: {1}", stuklijst.Item3Label, label.Item3), Font, g, rect.Left, rect.Bottom);
+            rect = PrintString(string.Format("{0}: {1}", stuklijst.Item4Label, label.Item4), Font, g, rect.Left, rect.Bottom);
             if (stuklijst.PrintCeLogo)
                 PrintCELogo(g, breedteDrager - DragerMargeRechts, hoogteLabel);
         }
@@ -161,7 +159,7 @@ namespace VHPSerienummerPrinter.Printing
             if (!string.IsNullOrEmpty(stuklijst.LogoImage))
             {
                 string file = System.Reflection.Assembly.GetExecutingAssembly().Location;
-                string theDirectory = Path.GetDirectoryName( file );
+                string theDirectory = Path.GetDirectoryName(file);
                 string path = Path.Combine(theDirectory, stuklijst.LogoImage);
                 logo = (Bitmap)Bitmap.FromFile(path);
             }
