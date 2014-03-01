@@ -86,12 +86,22 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Afbeeldingen.resx</DependentUpon>
     </Compile>
+    <Compile Include="Configuration\FontSettings.cs" />
     <Compile Include="Configuration\LabelSettings.cs" />
     <Compile Include="Configuration\Settings.cs" />
     <Compile Include="Configuration\SettingsValidator.cs" />
     <Compile Include="Configuration\TitellabelSettings.cs" />
     <Compile Include="Configuration\UserPrinterSettings.cs" />
     <Compile Include="Configuration\UserSettings.cs" />
+    <Compile Include="Controls\FontSelector.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\FontSelector.Designer.cs">
+      <DependentUpon>FontSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PreviewControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\PrinterSelector.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -135,6 +145,9 @@
     <Compile Include="Printing\LabelPaginator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Controls\FontSelector.resx">
+      <DependentUpon>FontSelector.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\PrinterSelector.resx">
       <DependentUpon>PrinterSelector.cs</DependentUpon>
     </EmbeddedResource>
@@ -216,12 +229,6 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\VhpControls\VhpControls.csproj">
-      <Project>{70998D17-5EA2-43D0-8EDD-69A3962D4074}</Project>
-      <Name>VhpControls</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <NativeReference Include="Microsoft.Windows.DebuggersAndTools, Version=1.0.0.0, ProcessorArchitecture=x86, Type=win32">

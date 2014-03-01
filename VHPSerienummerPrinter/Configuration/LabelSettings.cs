@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -16,8 +17,9 @@ namespace VHPSerienummerPrinter.Configuration
         public int OnderMarge { get; set; }
         public float LinkerMargeDrager { get; set; }
         public float RechterMargeDrager { get; set; }
-        public string FontFamily { get; set; }
-        
+        public FontSettings ItemFont{ get; set; }
+        public FontSettings TitelFont { get; set; }
+                
         public LabelSettings()
         {
             PrinterSettings = new UserPrinterSettings();

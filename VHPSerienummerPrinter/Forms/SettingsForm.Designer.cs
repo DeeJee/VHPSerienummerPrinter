@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            VHPSerienummerPrinter.Configuration.FontSettings fontSettings1 = new VHPSerienummerPrinter.Configuration.FontSettings();
+            VHPSerienummerPrinter.Configuration.FontSettings fontSettings2 = new VHPSerienummerPrinter.Configuration.FontSettings();
             this.LabelOverleveringAbsoluut = new System.Windows.Forms.Label();
             this.LabelOverleveringRelatief = new System.Windows.Forms.Label();
             this.ButtonOk = new System.Windows.Forms.Button();
@@ -42,14 +44,21 @@
             this.tbxRechts = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.DdlFonts = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.LabelPreview = new VhpControls.PreviewControl();
             this.tbxDragerMargeRechts = new System.Windows.Forms.NumericUpDown();
             this.tbxDragerMargeLinks = new System.Windows.Forms.NumericUpDown();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.fontDialog1 = new System.Windows.Forms.FontDialog();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabLabel = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.itemFontSelector = new VHPSierienummerPrinter.Controls.FontSelector();
+            this.titelFontSelector = new VHPSierienummerPrinter.Controls.FontSelector();
+            this.LabelPreview = new VhpControls.PreviewControl();
+            this.tabPrinting = new System.Windows.Forms.TabPage();
             this.LabelPrinterSelector = new VHPSerienummerPrinter.Controls.PrinterSelector();
             ((System.ComponentModel.ISupportInitialize)(this.tbxOnder)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbxLinks)).BeginInit();
@@ -58,6 +67,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.tbxDragerMargeRechts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbxDragerMargeLinks)).BeginInit();
             this.groupBox1.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabLabel.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.tabPrinting.SuspendLayout();
             this.SuspendLayout();
             // 
             // LabelOverleveringAbsoluut
@@ -80,7 +93,7 @@
             // 
             // ButtonOk
             // 
-            this.ButtonOk.Location = new System.Drawing.Point(12, 451);
+            this.ButtonOk.Location = new System.Drawing.Point(12, 405);
             this.ButtonOk.Name = "ButtonOk";
             this.ButtonOk.Size = new System.Drawing.Size(75, 23);
             this.ButtonOk.TabIndex = 7;
@@ -90,7 +103,7 @@
             // 
             // ButtonAnnuleren
             // 
-            this.ButtonAnnuleren.Location = new System.Drawing.Point(93, 451);
+            this.ButtonAnnuleren.Location = new System.Drawing.Point(93, 405);
             this.ButtonAnnuleren.Name = "ButtonAnnuleren";
             this.ButtonAnnuleren.Size = new System.Drawing.Size(75, 23);
             this.ButtonAnnuleren.TabIndex = 8;
@@ -166,38 +179,6 @@
             this.label4.TabIndex = 20;
             this.label4.Text = "Rechts";
             // 
-            // DdlFonts
-            // 
-            this.DdlFonts.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.DdlFonts.FormattingEnabled = true;
-            this.DdlFonts.Location = new System.Drawing.Point(75, 279);
-            this.DdlFonts.Name = "DdlFonts";
-            this.DdlFonts.Size = new System.Drawing.Size(168, 21);
-            this.DdlFonts.TabIndex = 16;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 282);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(54, 13);
-            this.label5.TabIndex = 20;
-            this.label5.Text = "Lettertype";
-            // 
-            // LabelPreview
-            // 
-            this.LabelPreview.DragerMargeLinks = 0F;
-            this.LabelPreview.DragerMargeRechts = 0F;
-            this.LabelPreview.LabelMargeBoven = 0F;
-            this.LabelPreview.LabelMargeLinks = 0F;
-            this.LabelPreview.LabelMargeOnder = 0F;
-            this.LabelPreview.LabelMargeRechts = 0F;
-            this.LabelPreview.Location = new System.Drawing.Point(12, 10);
-            this.LabelPreview.Name = "LabelPreview";
-            this.LabelPreview.Size = new System.Drawing.Size(357, 108);
-            this.LabelPreview.TabIndex = 22;
-            this.LabelPreview.Text = "previewControl1";
-            // 
             // tbxDragerMargeRechts
             // 
             this.tbxDragerMargeRechts.DecimalPlaces = 1;
@@ -242,34 +223,137 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.tbxRechts);
             this.groupBox1.Controls.Add(this.LabelOverleveringRelatief);
-            this.groupBox1.Location = new System.Drawing.Point(12, 306);
+            this.groupBox1.Location = new System.Drawing.Point(20, 214);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(340, 139);
             this.groupBox1.TabIndex = 24;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Marges";
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(16, 28);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(38, 13);
-            this.label6.TabIndex = 26;
-            this.label6.Text = "Labels";
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.Location = new System.Drawing.Point(157, 28);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(39, 13);
+            this.label7.Size = new System.Drawing.Size(45, 13);
             this.label7.TabIndex = 27;
             this.label7.Text = "Drager";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(16, 28);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(44, 13);
+            this.label6.TabIndex = 26;
+            this.label6.Text = "Labels";
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabLabel);
+            this.tabControl1.Controls.Add(this.tabPrinting);
+            this.tabControl1.Location = new System.Drawing.Point(12, 8);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(392, 391);
+            this.tabControl1.TabIndex = 26;
+            // 
+            // tabLabel
+            // 
+            this.tabLabel.Controls.Add(this.groupBox2);
+            this.tabLabel.Controls.Add(this.LabelPreview);
+            this.tabLabel.Controls.Add(this.groupBox1);
+            this.tabLabel.Location = new System.Drawing.Point(4, 22);
+            this.tabLabel.Name = "tabLabel";
+            this.tabLabel.Padding = new System.Windows.Forms.Padding(3);
+            this.tabLabel.Size = new System.Drawing.Size(384, 365);
+            this.tabLabel.TabIndex = 0;
+            this.tabLabel.Text = "Label";
+            this.tabLabel.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Controls.Add(this.label5);
+            this.groupBox2.Controls.Add(this.itemFontSelector);
+            this.groupBox2.Controls.Add(this.titelFontSelector);
+            this.groupBox2.Location = new System.Drawing.Point(20, 115);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(340, 93);
+            this.groupBox2.TabIndex = 26;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Lettertype";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(7, 64);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(32, 13);
+            this.label8.TabIndex = 30;
+            this.label8.Text = "Items";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(7, 29);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(27, 13);
+            this.label5.TabIndex = 29;
+            this.label5.Text = "Titel";
+            // 
+            // itemFontSelector
+            // 
+            this.itemFontSelector.Location = new System.Drawing.Point(45, 55);
+            this.itemFontSelector.Name = "itemFontSelector";
+            this.itemFontSelector.Size = new System.Drawing.Size(280, 30);
+            this.itemFontSelector.TabIndex = 28;
+            // 
+            // titelFontSelector
+            // 
+            this.titelFontSelector.Location = new System.Drawing.Point(46, 20);
+            this.titelFontSelector.Name = "titelFontSelector";
+            this.titelFontSelector.Size = new System.Drawing.Size(279, 30);
+            this.titelFontSelector.TabIndex = 27;
+            // 
+            // LabelPreview
+            // 
+            this.LabelPreview.DragerMargeLinks = 3.3F;
+            this.LabelPreview.DragerMargeRechts = 3.3F;
+            fontSettings1.Name = "Arial";
+            fontSettings1.Size = 6F;
+            fontSettings1.Style = System.Drawing.FontStyle.Bold;
+            this.LabelPreview.ItemFont = fontSettings1;
+            this.LabelPreview.LabelMargeBoven = 1F;
+            this.LabelPreview.LabelMargeLinks = 2F;
+            this.LabelPreview.LabelMargeOnder = 1F;
+            this.LabelPreview.LabelMargeRechts = 2F;
+            this.LabelPreview.Location = new System.Drawing.Point(20, 13);
+            this.LabelPreview.Name = "LabelPreview";
+            this.LabelPreview.Size = new System.Drawing.Size(340, 92);
+            this.LabelPreview.TabIndex = 22;
+            this.LabelPreview.Text = "previewControl1";
+            fontSettings2.Name = "Arial";
+            fontSettings2.Size = 9F;
+            fontSettings2.Style = System.Drawing.FontStyle.Bold;
+            this.LabelPreview.TitelFont = fontSettings2;
+            // 
+            // tabPrinting
+            // 
+            this.tabPrinting.Controls.Add(this.LabelPrinterSelector);
+            this.tabPrinting.Location = new System.Drawing.Point(4, 22);
+            this.tabPrinting.Name = "tabPrinting";
+            this.tabPrinting.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPrinting.Size = new System.Drawing.Size(384, 365);
+            this.tabPrinting.TabIndex = 1;
+            this.tabPrinting.Text = "Printer";
+            this.tabPrinting.UseVisualStyleBackColor = true;
+            // 
             // LabelPrinterSelector
             // 
-            this.LabelPrinterSelector.Location = new System.Drawing.Point(12, 124);
+            this.LabelPrinterSelector.Location = new System.Drawing.Point(6, 6);
             this.LabelPrinterSelector.Name = "LabelPrinterSelector";
             this.LabelPrinterSelector.Settings = null;
             this.LabelPrinterSelector.Size = new System.Drawing.Size(198, 155);
@@ -279,12 +363,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(395, 516);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.LabelPrinterSelector);
-            this.Controls.Add(this.LabelPreview);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.DdlFonts);
+            this.ClientSize = new System.Drawing.Size(436, 447);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.ButtonAnnuleren);
             this.Controls.Add(this.ButtonOk);
             this.Name = "SettingsForm";
@@ -298,8 +378,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.tbxDragerMargeLinks)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.tabLabel.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.tabPrinting.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -314,8 +398,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox DdlFonts;
-        private System.Windows.Forms.Label label5;
         private VhpControls.PreviewControl LabelPreview;
         private System.Windows.Forms.NumericUpDown tbxOnder;
         private System.Windows.Forms.NumericUpDown tbxLinks;
@@ -327,5 +409,14 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.FontDialog fontDialog1;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabLabel;
+        private System.Windows.Forms.TabPage tabPrinting;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private VHPSierienummerPrinter.Controls.FontSelector titelFontSelector;
+        private VHPSierienummerPrinter.Controls.FontSelector itemFontSelector;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label5;
     }
 }

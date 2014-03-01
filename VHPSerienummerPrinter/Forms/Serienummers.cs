@@ -69,6 +69,8 @@ namespace VHPSerienummerPrinter
             serienummers.StartIndex = DdlVan.SelectedIndex;
             serienummers.EindIndex = DdlTotEnMet.SelectedIndex;
             PrintEngine engine = new PrintEngine(serienummers);
+            engine.TitelFont = Settings.Label.TitelFont;
+            engine.ItemFont = Settings.Label.ItemFont;
             pageDialog1.Document = engine;
 
             //standaard printer instellen
@@ -146,6 +148,8 @@ namespace VHPSerienummerPrinter
             serienummers.EindIndex = DdlTotEnMet.SelectedIndex;
 
             PrintEngine engine = new PrintEngine(serienummers);
+            engine.TitelFont= Settings.Label.TitelFont;
+            engine.ItemFont = Settings.Label.ItemFont;
             pageDialog1.Document = engine;
 
             //standaard printer instellen
@@ -227,6 +231,8 @@ namespace VHPSerienummerPrinter
         private void Serienummers_Paint(object sender, PaintEventArgs e)
         {
             PrintEngine engine = new PrintEngine(serienummers);
+            engine.TitelFont= Settings.Label.TitelFont;
+            engine.ItemFont = Settings.Label.ItemFont;
             try
             {
                 engine.PrintPreviewImage(e.Graphics);

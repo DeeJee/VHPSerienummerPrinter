@@ -39,27 +39,39 @@ namespace VHPSerienummerPrinter.Printing
         private int labelIndex = -1;
         private int lastPageIndex;
 
-        private string _fontFamily = "Arial";
-        public string FontFamily
+        private FontSettings _titelFontSettings = new FontSettings("Arial", 9, FontStyle.Bold);
+        public FontSettings TitelFont
         {
-            get{return _fontFamily;}
-            set{_fontFamily=value;}
+            get
+            {
+                return _titelFontSettings;
+            }
+            set
+            {
+                _titelFontSettings = value;
+                _titleFont = new Font(value.Name, value.Size, value.Style);
+            }
+        }
+
+        private FontSettings _itemFontSettings = new FontSettings("Arial", 6, FontStyle.Bold);
+        public FontSettings ItemFont
+        {
+            get { return _itemFontSettings; }
+            set
+            {
+                _itemFontSettings = value;
+                _itemFont = new Font(value.Name, value.Size, value.Style);
+            }
         }
 
         private Font _titleFont;
-        public Font _font;
+        private Font _itemFont;
         
-        public Font Font
-        {
-            get { return _font; }
-            set { _font = value; }
-        }
-
         private SerienummerLijst stuklijst;
         public PrintEngine(SerienummerLijst stuklijst)
         {
-            _titleFont = new Font(_fontFamily, 9, FontStyle.Bold);
-            _font = new Font(_fontFamily, 6, FontStyle.Bold);
+            _titleFont = new Font(_itemFontSettings.Name, _itemFontSettings.Size, _itemFontSettings.Style);
+            _itemFont = new Font(_itemFontSettings.Name, _itemFontSettings.Size, _itemFontSettings.Style);
             this.stuklijst = stuklijst;
             //this.DefaultPageSettings.PaperSize = new PaperSelector().GetDefaultlabel();
             this.DefaultPageSettings.Landscape = false;
@@ -91,7 +103,7 @@ namespace VHPSerienummerPrinter.Printing
             //haal een label uit de lijst en print deze
             SerienummerInfo label = stuklijst.SelectedLabels[labelIndex];
 
-            PrintLabelBounds(e.Graphics);
+            //PrintLabelBounds(e.Graphics);
             PrintSerienummerLabel(e.Graphics, label);
 
             // Als er nog meer labels in de lijst zitten komen die op een andere pagina.
@@ -111,17 +123,17 @@ namespace VHPSerienummerPrinter.Printing
 
             //linker kolom linker label
             var leftRect = rect;
-            leftRect = PrintString(stuklijst.Item1Label, Font, g, leftRect.Left, leftRect.Bottom);
-            leftRect = PrintString(stuklijst.Item2Label, Font, g, leftRect.Left, leftRect.Bottom);
-            leftRect = PrintString(stuklijst.Item3Label, Font, g, leftRect.Left, leftRect.Bottom);
-            leftRect = PrintString(stuklijst.Item4Label, Font, g, leftRect.Left, leftRect.Bottom);
+            leftRect = PrintString(stuklijst.Item1Label, _itemFont, g, leftRect.Left, leftRect.Bottom);
+            leftRect = PrintString(stuklijst.Item2Label, _itemFont, g, leftRect.Left, leftRect.Bottom);
+            leftRect = PrintString(stuklijst.Item3Label, _itemFont, g, leftRect.Left, leftRect.Bottom);
+            leftRect = PrintString(stuklijst.Item4Label, _itemFont, g, leftRect.Left, leftRect.Bottom);
 
             //rechter kolom linker label
             RectangleF rightRect = new RectangleF(rect.Left + breedteLinkerKolom, rect.Top, rect.Width, rect.Height);
-            rightRect = PrintString(string.Format(": {0}", label.Item1), Font, g, rightRect.Left, rightRect.Bottom);
-            rightRect = PrintString(string.Format(": {0}", label.Item2), Font, g, rightRect.Left, rightRect.Bottom);
-            rightRect = PrintString(string.Format(": {0}", label.Item3), Font, g, rightRect.Left, rightRect.Bottom);
-            rightRect = PrintString(string.Format(": {0}", label.Item4), Font, g, rightRect.Left, rightRect.Bottom);
+            rightRect = PrintString(string.Format(": {0}", label.Item1), _itemFont, g, rightRect.Left, rightRect.Bottom);
+            rightRect = PrintString(string.Format(": {0}", label.Item2), _itemFont, g, rightRect.Left, rightRect.Bottom);
+            rightRect = PrintString(string.Format(": {0}", label.Item3), _itemFont, g, rightRect.Left, rightRect.Bottom);
+            rightRect = PrintString(string.Format(": {0}", label.Item4), _itemFont, g, rightRect.Left, rightRect.Bottom);
             if (stuklijst.PrintCeLogo)
                 PrintCELogo(g, breedteLabel + DragerMargeLinks, hoogteLabel);
 
@@ -130,17 +142,17 @@ namespace VHPSerienummerPrinter.Printing
 
             //linker kolom rechter label
             leftRect = rect;
-            leftRect = PrintString(stuklijst.Item1Label, Font, g, leftRect.Left, leftRect.Bottom);
-            leftRect = PrintString(stuklijst.Item2Label, Font, g, leftRect.Left, leftRect.Bottom);
-            leftRect = PrintString(stuklijst.Item3Label, Font, g, leftRect.Left, leftRect.Bottom);
-            leftRect = PrintString(stuklijst.Item4Label, Font, g, leftRect.Left, leftRect.Bottom);
+            leftRect = PrintString(stuklijst.Item1Label, _itemFont, g, leftRect.Left, leftRect.Bottom);
+            leftRect = PrintString(stuklijst.Item2Label, _itemFont, g, leftRect.Left, leftRect.Bottom);
+            leftRect = PrintString(stuklijst.Item3Label, _itemFont, g, leftRect.Left, leftRect.Bottom);
+            leftRect = PrintString(stuklijst.Item4Label, _itemFont, g, leftRect.Left, leftRect.Bottom);
 
             //rechter kolom rechter label
             rightRect = new RectangleF(rect.Left + breedteLinkerKolom, rect.Top, rect.Width, rect.Height);
-            rightRect = PrintString(string.Format(": {0}", label.Item1), Font, g, rightRect.Left, rightRect.Bottom);
-            rightRect = PrintString(string.Format(": {0}", label.Item2), Font, g, rightRect.Left, rightRect.Bottom);
-            rightRect = PrintString(string.Format(": {0}", label.Item3), Font, g, rightRect.Left, rightRect.Bottom);
-            rightRect = PrintString(string.Format(": {0}", label.Item4), Font, g, rightRect.Left, rightRect.Bottom);
+            rightRect = PrintString(string.Format(": {0}", label.Item1), _itemFont, g, rightRect.Left, rightRect.Bottom);
+            rightRect = PrintString(string.Format(": {0}", label.Item2), _itemFont, g, rightRect.Left, rightRect.Bottom);
+            rightRect = PrintString(string.Format(": {0}", label.Item3), _itemFont, g, rightRect.Left, rightRect.Bottom);
+            rightRect = PrintString(string.Format(": {0}", label.Item4), _itemFont, g, rightRect.Left, rightRect.Bottom);
             if (stuklijst.PrintCeLogo)
                 PrintCELogo(g, breedteDrager - DragerMargeRechts, hoogteLabel);
         }
@@ -148,10 +160,10 @@ namespace VHPSerienummerPrinter.Printing
         private float BepaalBreedte(Graphics g, SerienummerInfo label)
         {
             List<float> breedtes = new List<float>();
-            breedtes.Add(g.MeasureString(stuklijst.Item1Label, Font).Width);
-            breedtes.Add(g.MeasureString(stuklijst.Item2Label, Font).Width);
-            breedtes.Add(g.MeasureString(stuklijst.Item3Label, Font).Width);
-            breedtes.Add(g.MeasureString(stuklijst.Item4Label, Font).Width);
+            breedtes.Add(g.MeasureString(stuklijst.Item1Label, _itemFont).Width);
+            breedtes.Add(g.MeasureString(stuklijst.Item2Label, _itemFont).Width);
+            breedtes.Add(g.MeasureString(stuklijst.Item3Label, _itemFont).Width);
+            breedtes.Add(g.MeasureString(stuklijst.Item4Label, _itemFont).Width);
             breedtes.Sort();
             return breedtes[breedtes.Count - 1];
         }
@@ -272,9 +284,9 @@ namespace VHPSerienummerPrinter.Printing
         }
 
 
-        private RectangleF MeetString(string text, Font f, Graphics g, float left, float top)
+        private RectangleF MeetString(string text, Font font, Graphics g, float left, float top)
         {
-            RectangleF rect = new RectangleF(new PointF { X = left, Y = top }, g.MeasureString(text, Font));
+            RectangleF rect = new RectangleF(new PointF { X = left, Y = top }, g.MeasureString(text, font));
             return rect;
         }
 
