@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing.Printing;
 using VHPSierienummerPrinter.Properties;
+using VHPSerienummerPrinter.Configuration;
 
 namespace VHPSerienummerPrinter
 {
@@ -14,7 +15,7 @@ namespace VHPSerienummerPrinter
             //Lijst met beschikbare printers vullen
             foreach (string printer in PrinterSettings.InstalledPrinters)
             {
-                if (printer == Settings.Default.CustomPrinter)
+                if (printer == Settings.Label.PrinterSettings.Printer)
                 {
                     PrinterSettings selectedPrinter = new PrinterSettings();
                     selectedPrinter.PrinterName = printer;
@@ -22,7 +23,7 @@ namespace VHPSerienummerPrinter
                     //vult lijst met papierformaten die bij de geselecteerde printer horen
                     foreach (PaperSize paperSize in selectedPrinter.PaperSizes)
                     {
-                        if (paperSize.PaperName == Settings.Default.CustomLabel)
+                        if (paperSize.PaperName == Settings.Label.PrinterSettings.Paper)
                         {
                             return paperSize;
                         }

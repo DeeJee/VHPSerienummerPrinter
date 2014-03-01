@@ -74,7 +74,7 @@
             this.DdlVan.Name = "DdlVan";
             this.DdlVan.Size = new System.Drawing.Size(121, 21);
             this.DdlVan.TabIndex = 13;
-            this.DdlVan.SelectedIndexChanged += new System.EventHandler(this.SelectedIndexChanged);
+            this.DdlVan.SelectedIndexChanged += new System.EventHandler(this.VanSelectedIndexChanged);
             // 
             // DdlTotEnMet
             // 
@@ -84,7 +84,7 @@
             this.DdlTotEnMet.Name = "DdlTotEnMet";
             this.DdlTotEnMet.Size = new System.Drawing.Size(121, 21);
             this.DdlTotEnMet.TabIndex = 14;
-            this.DdlTotEnMet.SelectedIndexChanged += new System.EventHandler(this.SelectedIndexChanged);
+            this.DdlTotEnMet.SelectedIndexChanged += new System.EventHandler(this.TotEnMetSelectedIndexChanged);
             // 
             // Afdrukken
             // 
@@ -168,7 +168,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(403, 375);
+            this.ClientSize = new System.Drawing.Size(364, 375);
             this.Controls.Add(this.Voorbeeld);
             this.Controls.Add(this.LabelAantalInSelectie);
             this.Controls.Add(this.groupBox1);

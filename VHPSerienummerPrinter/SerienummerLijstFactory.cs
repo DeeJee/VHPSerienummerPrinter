@@ -39,11 +39,6 @@ namespace VHPSerienummerPrinter
         private int item2Column;
         private int item3Column;
         private int item4Column;
-        private string item1Label;
-        private string item2Label;
-        private string item3Label;
-        private string item4Label;
-
 
         public string Message { get; set; }
         public SerienummerLijst serienummerLijst { get; set; }
@@ -101,21 +96,23 @@ namespace VHPSerienummerPrinter
                 //labels bepalen
                 for (int lineNumber = dataStartReadRow; lineNumber < lines.Count; lineNumber++)
                 {
-                    //de artikelen lezen
-                    if (lineNumber < lines.Count)
+                    string line = lines[lineNumber];
+                    if (LineIsEmpty(line))
                     {
-                        cells = lines[lineNumber].Split(separator.Value);
-                        string jaar = cells[kolomJaar].Replace("\"", string.Empty);
-                        string batch = cells[kolomBatch].Replace("\"", string.Empty);
-                        string volgNummer = cells[kolomVolgnummer].Replace("\"", string.Empty);
-
-                        string item1 = cells[item1Column].Replace("\"", string.Empty);
-                        string item2 = cells[item2Column].Replace("\"", string.Empty);
-                        string item3 = cells[item3Column].Replace("\"", string.Empty);
-                        string item4 = cells[item4Column].Replace("\"", string.Empty);
-
-                        serienummerLijst.AddSerienummer(jaar, batch, volgNummer, item1, item2, item3, item4);
+                        break;
                     }
+                    //de artikelen lezen
+                    cells = line.Split(separator.Value);
+                    string jaar = cells[kolomJaar].Replace("\"", string.Empty);
+                    string batch = cells[kolomBatch].Replace("\"", string.Empty);
+                    string volgNummer = cells[kolomVolgnummer].Replace("\"", string.Empty);
+
+                    string item1 = cells[item1Column].Replace("\"", string.Empty);
+                    string item2 = cells[item2Column].Replace("\"", string.Empty);
+                    string item3 = cells[item3Column].Replace("\"", string.Empty);
+                    string item4 = cells[item4Column].Replace("\"", string.Empty);
+
+                    serienummerLijst.AddSerienummer(jaar, batch, volgNummer, item1, item2, item3, item4);
                 }
 
                 FileFinder finder = new FileFinder();
@@ -130,12 +127,18 @@ namespace VHPSerienummerPrinter
             return true;
         }
 
+        private bool LineIsEmpty(string line)
+        {
+            string temp=line.Replace(separator.Value.ToString(),string.Empty);
+            return temp.Trim().Length == 0;
+        }
+
         private void BepaalItems(List<string> lines)
         {
-            serienummerLijst.Item1Label= lines[1].Split(separator.Value)[12];
-            serienummerLijst.Item2Label= lines[2].Split(separator.Value)[12];
-            serienummerLijst.Item3Label= lines[3].Split(separator.Value)[12];
-            serienummerLijst.Item4Label= lines[4].Split(separator.Value)[12];
+            serienummerLijst.Item1Label = lines[1].Split(separator.Value)[12];
+            serienummerLijst.Item2Label = lines[2].Split(separator.Value)[12];
+            serienummerLijst.Item3Label = lines[3].Split(separator.Value)[12];
+            serienummerLijst.Item4Label = lines[4].Split(separator.Value)[12];
 
             string[] cells = lines[dataHeaderRow].Split(separator.Value);
             for (int index = 0; index < cells.Length; index++)

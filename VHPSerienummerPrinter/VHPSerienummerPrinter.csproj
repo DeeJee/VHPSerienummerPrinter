@@ -54,6 +54,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -81,6 +85,18 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Afbeeldingen.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Configuration\LabelSettings.cs" />
+    <Compile Include="Configuration\Settings.cs" />
+    <Compile Include="Configuration\SettingsValidator.cs" />
+    <Compile Include="Configuration\TitellabelSettings.cs" />
+    <Compile Include="Configuration\UserPrinterSettings.cs" />
+    <Compile Include="Configuration\UserSettings.cs" />
+    <Compile Include="Controls\PrinterSelector.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PrinterSelector.Designer.cs">
+      <DependentUpon>PrinterSelector.cs</DependentUpon>
     </Compile>
     <Compile Include="FileFinder.cs" />
     <Compile Include="Formatting\SmartTextFormatter.cs" />
@@ -119,6 +135,9 @@
     <Compile Include="Printing\LabelPaginator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Controls\PrinterSelector.resx">
+      <DependentUpon>PrinterSelector.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -143,15 +162,6 @@
     </Compile>
     <None Include="app.config" />
     <None Include="Properties\app.manifest" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
     <Compile Include="RecentlyOpenedFiles\RecentFile.cs" />
     <Compile Include="RecentlyOpenedFiles\RecentFiles.cs" />
     <Compile Include="RecentlyOpenedFiles\RecentFilesHandler.cs" />
@@ -206,6 +216,18 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VhpControls\VhpControls.csproj">
+      <Project>{70998D17-5EA2-43D0-8EDD-69A3962D4074}</Project>
+      <Name>VhpControls</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <NativeReference Include="Microsoft.Windows.DebuggersAndTools, Version=1.0.0.0, ProcessorArchitecture=x86, Type=win32">
+      <Name>dbghelp.dll</Name>
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\dbghelp.dll</HintPath>
+    </NativeReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

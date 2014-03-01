@@ -9,6 +9,7 @@ using System.IO;
 using VHPSierienummerPrinter;
 using VHPSierienummerPrinter.Properties;
 using System.Drawing.Drawing2D;
+using VHPSerienummerPrinter.Configuration;
 
 namespace VHPSerienummerPrinter.Printing
 {
@@ -23,29 +24,42 @@ namespace VHPSerienummerPrinter.Printing
         private float breedteDrager = 338.84F;  //85.1mm
         private float breedteLabel = 149.72F;   //38mm
         private float hoogteLabel = 90.62F;     //23mm
-        public float LabelMargeLinks { get { return ToCentiInches(Settings.Default.LinkerMarge); } }
-        public float LabelMargeRechts { get { return ToCentiInches(Settings.Default.RechterMarge); } }
-        public float LabelMargeBoven { get { return ToCentiInches(Settings.Default.BovenMarge); } }
-        public float LabelMargeOnder { get { return ToCentiInches(Settings.Default.OnderMarge); } }
-        private float DragerMargeLinks { get { return ToCentiInches(Settings.Default.LinkerMargeDrager); } }
-        private float DragerMargeRechts { get { return ToCentiInches(Settings.Default.RechterMargeDrager); } }
+        public float LabelMargeLinks { get { return ToCentiInches(Settings.Label.LinkerMarge); } }
+        public float LabelMargeRechts { get { return ToCentiInches(Settings.Label.RechterMarge); } }
+        public float LabelMargeBoven { get { return ToCentiInches(Settings.Label.BovenMarge); } }
+        public float LabelMargeOnder { get { return ToCentiInches(Settings.Label.OnderMarge); } }
+        private float DragerMargeLinks { get { return ToCentiInches(Settings.Label.LinkerMargeDrager); } }
+        private float DragerMargeRechts { get { return ToCentiInches(Settings.Label.RechterMargeDrager); } }
         private float DragerMargeMidden { get { return breedteDrager - DragerMargeLinks - DragerMargeRechts - 2 * breedteLabel; } }
 
         private const float hoogteCeLogo = 23.64F;
         private const float breedteCeLogo = 31.52F;
-        private const float margeTussenLogoEnTekst = 0F;
+        private const float margeTussenLogoEnTekst = 6F;
 
         private int labelIndex = -1;
         private int lastPageIndex;
 
-        private Font _titleFont = new Font("Arial", 9, FontStyle.Bold);
-        public Font TitleFont { get { return _titleFont; } set { _titleFont = value; } }
+        private string _fontFamily = "Arial";
+        public string FontFamily
+        {
+            get{return _fontFamily;}
+            set{_fontFamily=value;}
+        }
 
-        public Font _font = new Font("Arial", 7, FontStyle.Bold);
-        public Font Font { get { return _font; } set { _font = value; } }
+        private Font _titleFont;
+        public Font _font;
+        
+        public Font Font
+        {
+            get { return _font; }
+            set { _font = value; }
+        }
+
         private SerienummerLijst stuklijst;
         public PrintEngine(SerienummerLijst stuklijst)
         {
+            _titleFont = new Font(_fontFamily, 9, FontStyle.Bold);
+            _font = new Font(_fontFamily, 6, FontStyle.Bold);
             this.stuklijst = stuklijst;
             //this.DefaultPageSettings.PaperSize = new PaperSelector().GetDefaultlabel();
             this.DefaultPageSettings.Landscape = false;
@@ -77,7 +91,7 @@ namespace VHPSerienummerPrinter.Printing
             //haal een label uit de lijst en print deze
             SerienummerInfo label = stuklijst.SelectedLabels[labelIndex];
 
-            //            printLabelBounds(e);
+            PrintLabelBounds(e.Graphics);
             PrintSerienummerLabel(e.Graphics, label);
 
             // Als er nog meer labels in de lijst zitten komen die op een andere pagina.
@@ -92,18 +106,9 @@ namespace VHPSerienummerPrinter.Printing
         private void PrintSerienummerLabel(Graphics g, SerienummerInfo label)
         {
             var breedteLinkerKolom = BepaalBreedte(g, label);
-            //RectangleF rect = PrintVHPLogo(g, DragerMargeLinks);
-            //rect = PrintString(stuklijst.Product, TitleFont, g, rect.Right + margeTussenLogoEnTekst, LabelMargeBoven + margeTussenLogoEnTekst);
-            //rect = PrintString(string.Format("{0}: {1}", stuklijst.Item1Label.PadRight(4), label.Item1), Font, g, rect.Left, rect.Bottom);
-            //rect = PrintString(string.Format("{0}: {1}", stuklijst.Item2Label.PadRight(4), label.Item2), Font, g, rect.Left, rect.Bottom);
-            //rect = PrintString(string.Format("{0}: {1}", stuklijst.Item3Label.PadRight(4), label.Item3), Font, g, rect.Left, rect.Bottom);
-            //rect = PrintString(string.Format("{0}: {1}", stuklijst.Item4Label.PadRight(4), label.Item4), Font, g, rect.Left, rect.Bottom);
-            //if (stuklijst.PrintCeLogo)
-            //    PrintCELogo(g, breedteLabel + DragerMargeLinks, hoogteLabel);
-
             RectangleF rect = PrintVHPLogo(g, DragerMargeLinks);
-            rect = PrintString(stuklijst.Product, TitleFont, g, rect.Right + margeTussenLogoEnTekst, LabelMargeBoven + margeTussenLogoEnTekst);
-            
+            rect = PrintString(stuklijst.Product, _titleFont, g, rect.Right + margeTussenLogoEnTekst, rect.Top);
+
             //linker kolom linker label
             var leftRect = rect;
             leftRect = PrintString(stuklijst.Item1Label, Font, g, leftRect.Left, leftRect.Bottom);
@@ -112,7 +117,7 @@ namespace VHPSerienummerPrinter.Printing
             leftRect = PrintString(stuklijst.Item4Label, Font, g, leftRect.Left, leftRect.Bottom);
 
             //rechter kolom linker label
-            RectangleF rightRect = new RectangleF(rect.Left+breedteLinkerKolom,rect.Top,rect.Width, rect.Height);
+            RectangleF rightRect = new RectangleF(rect.Left + breedteLinkerKolom, rect.Top, rect.Width, rect.Height);
             rightRect = PrintString(string.Format(": {0}", label.Item1), Font, g, rightRect.Left, rightRect.Bottom);
             rightRect = PrintString(string.Format(": {0}", label.Item2), Font, g, rightRect.Left, rightRect.Bottom);
             rightRect = PrintString(string.Format(": {0}", label.Item3), Font, g, rightRect.Left, rightRect.Bottom);
@@ -121,8 +126,8 @@ namespace VHPSerienummerPrinter.Printing
                 PrintCELogo(g, breedteLabel + DragerMargeLinks, hoogteLabel);
 
             rect = PrintVHPLogo(g, DragerMargeLinks + breedteLabel + DragerMargeMidden);
-            rect = PrintString(stuklijst.Product, TitleFont, g, rect.Right + margeTussenLogoEnTekst, LabelMargeBoven + margeTussenLogoEnTekst);
-            
+            rect = PrintString(stuklijst.Product, _titleFont, g, rect.Right + margeTussenLogoEnTekst, rect.Top);
+
             //linker kolom rechter label
             leftRect = rect;
             leftRect = PrintString(stuklijst.Item1Label, Font, g, leftRect.Left, leftRect.Bottom);
@@ -258,11 +263,11 @@ namespace VHPSerienummerPrinter.Printing
             }
         }
 
-        private RectangleF PrintString(string text, Font f, Graphics g, float left, float top)
+        private RectangleF PrintString(string text, Font font, Graphics g, float left, float top)
         {
-            g.DrawString(text, Font, Brushes.Black, left, top, new StringFormat());
+            g.DrawString(text, font, Brushes.Black, left, top, new StringFormat());
 
-            RectangleF rect = new RectangleF(new PointF { X = left, Y = top }, g.MeasureString(text, Font));
+            RectangleF rect = new RectangleF(new PointF { X = left, Y = top }, g.MeasureString(text, font));
             return rect;
         }
 

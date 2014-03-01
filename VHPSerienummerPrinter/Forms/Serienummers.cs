@@ -16,6 +16,7 @@ using VHPSerienummerPrinter.RecentlyOpenedFiles;
 using VHPSerienummerPrinter.Validators;
 using VHPSerienummerPrinter.Printing;
 using VHPSierienummerPrinter.Properties;
+using VHPSerienummerPrinter.Configuration;
 
 namespace VHPSerienummerPrinter
 {
@@ -29,7 +30,7 @@ namespace VHPSerienummerPrinter
             InitializeComponent();
 
             SerienummerLijstFactory factory = new SerienummerLijstFactory();
-            Init(factory,path);
+            Init(factory, path);
         }
 
         private bool Init(SerienummerLijstFactory factory, string path)
@@ -42,7 +43,7 @@ namespace VHPSerienummerPrinter
             }
             else
             {
-                DialogResult result = MessageBox.Show(factory.Message,"problemen",MessageBoxButtons.RetryCancel);
+                DialogResult result = MessageBox.Show(factory.Message, "problemen", MessageBoxButtons.RetryCancel);
                 if (result == DialogResult.Retry)
                 {
                     gelukt = Init(factory, path);
@@ -70,23 +71,17 @@ namespace VHPSerienummerPrinter
             PrintEngine engine = new PrintEngine(serienummers);
             pageDialog1.Document = engine;
 
-            //eventueel standaard printer instellen
-            if (Settings.Default.UseCustomPrinter)
-            {
-                engine.PrinterSettings.PrinterName = Settings.Default.CustomPrinter;
-            }
+            //standaard printer instellen
+            engine.PrinterSettings.PrinterName = Settings.Label.PrinterSettings.Printer;
 
             //eventueel standaard papier instellen
-            if (Settings.Default.UseCustomPaper)
-            {
-                SelectCustomPaper(engine, pageDialog1);
-            }
+            SelectCustomPaper(engine, pageDialog1);
 
             printDialog1.Document = engine;
             printDialog1.AllowSelection = true;
             printDialog1.AllowSomePages = true;
-            printDialog1.Document.DocumentName = string.Format("Serienummer labels {0}",serienummers.Product);
-            if (!Settings.Default.UseCustomPrinter)
+            printDialog1.Document.DocumentName = string.Format("Serienummer labels {0}", serienummers.Product);
+            if (Settings.Label.PrinterSettings.AlwaysShowPrintDialog)
             {
                 if (printDialog1.ShowDialog() == DialogResult.OK)
                 {
@@ -103,7 +98,7 @@ namespace VHPSerienummerPrinter
         {
             for (int index = 0; index < engine.PrinterSettings.PaperSizes.Count; index++)
             {
-                if (engine.PrinterSettings.PaperSizes[index].PaperName == Settings.Default.CustomLabel)
+                if (engine.PrinterSettings.PaperSizes[index].PaperName == Settings.Label.PrinterSettings.Paper)
                 {
                     PaperSize size = engine.PrinterSettings.PaperSizes[index];
                     pageDialog1.PageSettings.PaperSize = size;
@@ -115,7 +110,7 @@ namespace VHPSerienummerPrinter
         {
             var van = DdlVan.SelectedItem;
             var totEnMet = DdlTotEnMet.SelectedItem;
-            InputValidator validator = new InputValidator(van==null?null:van.ToString(), totEnMet==null?null:totEnMet.ToString());
+            InputValidator validator = new InputValidator(van == null ? null : van.ToString(), totEnMet == null ? null : totEnMet.ToString());
             bool isValid = validator.Validate();
             if (!isValid)
             {
@@ -131,9 +126,7 @@ namespace VHPSerienummerPrinter
             LabelAantalItems.Text = serienummers.Labels.Count.ToString();
             foreach (SerienummerInfo info in serienummers.Labels)
             {
-                //TODO: probleem: kan niet weten welk item getoon moet worden in de dropdownlist
-                //DdlVan.Items.Add(info.SerieNummer);
-                //DdlTotEnMet.Items.Add(info.SerieNummer);
+                //TODO: je kunt hier niet weten welke van de serienummers is
                 DdlVan.Items.Add(info.Item2);
                 DdlTotEnMet.Items.Add(info.Item2);
             }
@@ -155,17 +148,12 @@ namespace VHPSerienummerPrinter
             PrintEngine engine = new PrintEngine(serienummers);
             pageDialog1.Document = engine;
 
-            //eventueel standaard printer instellen
-            if (Settings.Default.UseCustomPrinter)
-            {
-                engine.PrinterSettings.PrinterName = Settings.Default.CustomPrinter;
-            }
+            //standaard printer instellen
+            engine.PrinterSettings.PrinterName = Settings.Label.PrinterSettings.Printer;
 
-            //eventueel standaard papier instellen
-            if (Settings.Default.UseCustomPaper)
-            {
-                SelectCustomPaper(engine, pageDialog1);
-            }
+            //standaard papier instellen
+            SelectCustomPaper(engine, pageDialog1);
+
             PrintPreviewDialog printPreviewDialog1 = new PrintPreviewDialog(); // instantiate new print preview dialog
             printPreviewDialog1.Document = engine;
             if (printPreviewDialog1.ShowDialog() == DialogResult.OK)
@@ -179,11 +167,6 @@ namespace VHPSerienummerPrinter
             RecentFilesHandler.Add(fileName);
         }
 
-        private void instellingenToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void EnsureNumericValue(object sender, KeyPressEventArgs e)
         {
             if (!Char.IsDigit(e.KeyChar))
@@ -192,7 +175,7 @@ namespace VHPSerienummerPrinter
             }
         }
 
-        private void SelectedIndexChanged(object sender, EventArgs e)
+        private void VanSelectedIndexChanged(object sender, EventArgs e)
         {
             int startIndex = 0;
             if (DdlVan.SelectedIndex > -1)
@@ -200,7 +183,20 @@ namespace VHPSerienummerPrinter
                 startIndex = DdlVan.SelectedIndex;
             }
 
-            int eindIndex = DdlTotEnMet.Items.Count - 1;
+            DdlTotEnMet.Items.Clear();
+
+            for (int index = startIndex; index < serienummers.Labels.Count; index++)
+            {
+                DdlTotEnMet.Items.Add(serienummers.Labels[index].Item2);
+            }
+        }
+
+        private void TotEnMetSelectedIndexChanged(object sender, EventArgs e)
+        {
+            int startIndex = 0;
+            int eindIndex = 0;
+
+            eindIndex = DdlTotEnMet.Items.Count - 1;
             if (DdlTotEnMet.SelectedIndex > -1)
             {
                 eindIndex = DdlTotEnMet.SelectedIndex;
@@ -235,7 +231,7 @@ namespace VHPSerienummerPrinter
             {
                 engine.PrintPreviewImage(e.Graphics);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
