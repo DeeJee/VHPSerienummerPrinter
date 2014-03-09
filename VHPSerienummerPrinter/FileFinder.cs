@@ -8,18 +8,29 @@ namespace VHPSierienummerPrinter
 {
     public class FileFinder
     {
-        public bool Find(string path)
+        public string Message{ get; set; }
+        public bool Find(string relativePath)
         {
-            if(string.IsNullOrEmpty(path))
+            if(string.IsNullOrEmpty(relativePath))
                 return false;
 
             bool fileExists = true;
-            if (!File.Exists(path))
+            string absolutePath = GetAbsolutePath(relativePath);
+            if (!File.Exists(absolutePath))
             {
-                DetermineValidPart(path);
+                //DetermineValidPart(relativePath);
+                Message = string.Format("Bestand niet gevonden: {0}", absolutePath);
                 fileExists = false;
             }
             return fileExists;
+        }
+
+        private string GetAbsolutePath(string relativePath)
+        {
+            string file = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            string theDirectory = Path.GetDirectoryName(file);
+            string fullPath = Path.Combine(theDirectory, relativePath);
+            return fullPath;
         }
 
         private void DetermineValidPart(string path)

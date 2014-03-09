@@ -15,8 +15,8 @@ using System.Diagnostics;
 using VHPSerienummerPrinter.RecentlyOpenedFiles;
 using VHPSerienummerPrinter.Validators;
 using VHPSerienummerPrinter.Printing;
-using VHPSierienummerPrinter.Properties;
 using VHPSerienummerPrinter.Configuration;
+using VHPSerienummerPrinter.Entities;
 
 namespace VHPSerienummerPrinter
 {
@@ -25,28 +25,57 @@ namespace VHPSerienummerPrinter
         public bool LoadSuccesful { get; set; }
 
         private SerienummerLijst serienummers;
+        SerienummerLijstFactory factory;
+        ExcelSheetReader reader;
         public Serienummers(string path)
         {
             InitializeComponent();
 
-            SerienummerLijstFactory factory = new SerienummerLijstFactory();
-            Init(factory, path);
+            reader = new ExcelSheetReader();
+            factory = new SerienummerLijstFactory();
+            
+            Init(path);
         }
 
-        private bool Init(SerienummerLijstFactory factory, string path)
+        //private bool Init_oud(SerienummerLijstFactory_oud factory, string path)
+        //{
+
+        //    bool gelukt = factory.Create(path);
+        //    if (gelukt)
+        //    {
+        //        serienummers = factory.serienummerLijst;
+        //        LoadSuccesful = true;
+        //    }
+        //    else
+        //    {
+        //        DialogResult result = MessageBox.Show(factory.Message, "problemen", MessageBoxButtons.RetryCancel);
+        //        if (result == DialogResult.Retry)
+        //        {
+        //            gelukt = Init(factory, path);
+        //        }
+        //        else
+        //        {
+        //            //annuleren
+        //            LoadSuccesful = false;
+        //        }
+        //    }
+        //    return gelukt;
+        //}
+        private bool Init(string path)
         {
-            bool gelukt = factory.Create(path);
+            bool gelukt = reader.Read(path);
             if (gelukt)
             {
+                factory.Create(reader.Sheet);
                 serienummers = factory.serienummerLijst;
                 LoadSuccesful = true;
             }
             else
             {
-                DialogResult result = MessageBox.Show(factory.Message, "problemen", MessageBoxButtons.RetryCancel);
+                DialogResult result = MessageBox.Show(reader.Message, "problemen", MessageBoxButtons.RetryCancel);
                 if (result == DialogResult.Retry)
                 {
-                    gelukt = Init(factory, path);
+                    gelukt = Init(path);
                 }
                 else
                 {
@@ -66,9 +95,10 @@ namespace VHPSerienummerPrinter
 
             //setup page size
             PageSetupDialog pageDialog1 = new PageSetupDialog();
-            serienummers.StartIndex = DdlVan.SelectedIndex;
-            serienummers.EindIndex = DdlTotEnMet.SelectedIndex;
-            PrintEngine engine = new PrintEngine(serienummers);
+
+            SetSelection();
+
+            LabelPrintDocument engine = new LabelPrintDocument(serienummers);
             engine.TitelFont = Settings.Label.TitelFont;
             engine.ItemFont = Settings.Label.ItemFont;
             pageDialog1.Document = engine;
@@ -96,7 +126,19 @@ namespace VHPSerienummerPrinter
             }
         }
 
-        private void SelectCustomPaper(PrintEngine engine, PageSetupDialog pageDialog1)
+        private void SetSelection()
+        {
+            if (DdlVan.SelectedItem != null)
+            {
+                serienummers.StartIndex = ((ListItem)DdlVan.SelectedItem).Value;
+            }
+            if (DdlTotEnMet.SelectedItem != null)
+            {
+                serienummers.EindIndex = ((ListItem)DdlTotEnMet.SelectedItem).Value;
+            }
+        }
+
+        private void SelectCustomPaper(LabelPrintDocument engine, PageSetupDialog pageDialog1)
         {
             for (int index = 0; index < engine.PrinterSettings.PaperSizes.Count; index++)
             {
@@ -126,12 +168,22 @@ namespace VHPSerienummerPrinter
         {
             LabelProduct.Text = serienummers.Product;
             LabelAantalItems.Text = serienummers.Labels.Count.ToString();
-            foreach (SerienummerInfo info in serienummers.Labels)
-            {
-                //TODO: je kunt hier niet weten welke van de serienummers is
-                DdlVan.Items.Add(info.Item2);
-                DdlTotEnMet.Items.Add(info.Item2);
-            }
+
+            //if (!File.Exists(serienummers.LogoImage))
+            //{
+            //    MessageBox.Show(string.Format("Kan logo niet vinden: {0}", serienummers.LogoImage), "Bestand niet gevonden", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
+
+
+            FillComboBox(0, DdlVan);
+            FillComboBox(0, DdlTotEnMet);
+
+            //DdlVan.DataSource = new BindingSource( dict,null);
+            DdlVan.DisplayMember = "Text";
+            DdlVan.ValueMember = "Value";
+            //DdlTotEnMet.DataSource = new BindingSource(dict, null);
+            DdlTotEnMet.DisplayMember = "Text";
+            DdlTotEnMet.ValueMember = "Value";
         }
 
         public void PrintPreview()
@@ -144,11 +196,10 @@ namespace VHPSerienummerPrinter
             ///setup page size
             PageSetupDialog pageDialog1 = new PageSetupDialog();
 
-            serienummers.StartIndex = DdlVan.SelectedIndex;
-            serienummers.EindIndex = DdlTotEnMet.SelectedIndex;
+            SetSelection();
 
-            PrintEngine engine = new PrintEngine(serienummers);
-            engine.TitelFont= Settings.Label.TitelFont;
+            LabelPrintDocument engine = new LabelPrintDocument(serienummers);
+            engine.TitelFont = Settings.Label.TitelFont;
             engine.ItemFont = Settings.Label.ItemFont;
             pageDialog1.Document = engine;
 
@@ -182,28 +233,55 @@ namespace VHPSerienummerPrinter
         private void VanSelectedIndexChanged(object sender, EventArgs e)
         {
             int startIndex = 0;
-            if (DdlVan.SelectedIndex > -1)
+            string valueTotEnMet = null;
+            if (DdlTotEnMet.SelectedItem != null)
             {
-                startIndex = DdlVan.SelectedIndex;
+                valueTotEnMet = ((ListItem)DdlTotEnMet.SelectedItem).Text;
             }
 
-            DdlTotEnMet.Items.Clear();
+            startIndex = ((ListItem)DdlVan.SelectedItem).Value;
+            FillComboBox(startIndex, DdlTotEnMet);
 
+            if (valueTotEnMet != null)
+            {
+                var index = DdlTotEnMet.FindString(valueTotEnMet);
+                DdlTotEnMet.SelectedIndex = index;
+            }
+            CalculateNumberOfLabelsSelected();
+        }
+
+        private void FillComboBox(int startIndex, ComboBox comboBox)
+        {
+            comboBox.Items.Clear();
             for (int index = startIndex; index < serienummers.Labels.Count; index++)
             {
-                DdlTotEnMet.Items.Add(serienummers.Labels[index].Item2);
+                var label = serienummers.Labels[index];
+                comboBox.Items.Add(new ListItem(label.Item2, index));
             }
         }
 
         private void TotEnMetSelectedIndexChanged(object sender, EventArgs e)
         {
-            int startIndex = 0;
-            int eindIndex = 0;
+            CalculateNumberOfLabelsSelected();
+        }
 
-            eindIndex = DdlTotEnMet.Items.Count - 1;
+        private void CalculateNumberOfLabelsSelected()
+        {
+            int startIndex = 0;
+            int eindIndex;
+
+            if (DdlVan.SelectedItem != null)
+            {
+                startIndex = ((ListItem)DdlVan.SelectedItem).Value;
+            }
+
             if (DdlTotEnMet.SelectedIndex > -1)
             {
-                eindIndex = DdlTotEnMet.SelectedIndex;
+                eindIndex = ((ListItem)DdlTotEnMet.SelectedItem).Value;
+            }
+            else
+            {
+                eindIndex = ((ListItem)DdlTotEnMet.Items[DdlTotEnMet.Items.Count - 1]).Value;
             }
 
             int aantal = eindIndex - startIndex + 1;
@@ -215,7 +293,6 @@ namespace VHPSerienummerPrinter
             {
                 LabelAantalInSelectie.Text = string.Format("{0} labels geselecteerd", aantal);
             }
-
         }
 
         private void Voorbeeld_Click(object sender, EventArgs e)
@@ -230,8 +307,8 @@ namespace VHPSerienummerPrinter
 
         private void Serienummers_Paint(object sender, PaintEventArgs e)
         {
-            PrintEngine engine = new PrintEngine(serienummers);
-            engine.TitelFont= Settings.Label.TitelFont;
+            LabelPrintDocument engine = new LabelPrintDocument(serienummers);
+            engine.TitelFont = Settings.Label.TitelFont;
             engine.ItemFont = Settings.Label.ItemFont;
             try
             {

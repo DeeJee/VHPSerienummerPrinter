@@ -7,13 +7,13 @@ using System.Drawing;
 using VHPSerienummerPrinter;
 using System.IO;
 using VHPSierienummerPrinter;
-using VHPSierienummerPrinter.Properties;
 using System.Drawing.Drawing2D;
 using VHPSerienummerPrinter.Configuration;
+using System.Windows.Forms;
 
 namespace VHPSerienummerPrinter.Printing
 {
-    public class PrintEngine : PrintDocument
+    public class LabelPrintDocument : PrintDocument
     {
         const float schaalFactor = .8F;
         //38x23mm. Ze zitten met z'n tweeën naast elkaar op de rol.
@@ -68,7 +68,7 @@ namespace VHPSerienummerPrinter.Printing
         private Font _itemFont;
         
         private SerienummerLijst stuklijst;
-        public PrintEngine(SerienummerLijst stuklijst)
+        public LabelPrintDocument(SerienummerLijst stuklijst)
         {
             _titleFont = new Font(_itemFontSettings.Name, _itemFontSettings.Size, _itemFontSettings.Style);
             _itemFont = new Font(_itemFontSettings.Name, _itemFontSettings.Size, _itemFontSettings.Style);
@@ -206,7 +206,7 @@ namespace VHPSerienummerPrinter.Printing
             float height = hoogteCeLogo;
             var width = ((float)height / (float)Afbeeldingen.CE_symbool.Height) * (float)Afbeeldingen.CE_symbool.Width;
             float left = right - width - LabelMargeRechts;
-            float top = bottom - height - LabelMargeBoven;
+            float top = bottom - height - LabelMargeOnder;
             g.DrawImage(Afbeeldingen.CE_symbool, left, top, width, height);
         }
 
@@ -219,7 +219,14 @@ namespace VHPSerienummerPrinter.Printing
                 string file = System.Reflection.Assembly.GetExecutingAssembly().Location;
                 string theDirectory = Path.GetDirectoryName(file);
                 string path = Path.Combine(theDirectory, stuklijst.LogoImage);
-                logo = (Bitmap)Bitmap.FromFile(path);
+                if (File.Exists(path))
+                {
+                    logo = (Bitmap)Bitmap.FromFile(path);
+                }
+                else
+                {
+                    logo = Afbeeldingen.Logo_CDR13;
+                }                
             }
             else
             {

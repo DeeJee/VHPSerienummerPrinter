@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace VHPSierienummerPrinter {
+namespace VHPSerienummerPrinter {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace VHPSierienummerPrinter {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("VHPSierienummerPrinter.Afbeeldingen", typeof(Afbeeldingen).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("VHPSerienummerPrinter.Afbeeldingen", typeof(Afbeeldingen).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

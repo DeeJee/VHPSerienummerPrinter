@@ -8,8 +8,8 @@
     <ProjectGuid>{F122F81B-191E-4AC0-959E-29F0BD43C363}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VHPSierienummerPrinter</RootNamespace>
-    <AssemblyName>VHPSierienummerPrinter</AssemblyName>
+    <RootNamespace>VHPSerienummerPrinter</RootNamespace>
+    <AssemblyName>VHPSerienummerPrinter</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetZone>LocalIntranet</TargetZone>
@@ -108,6 +108,9 @@
     <Compile Include="Controls\PrinterSelector.Designer.cs">
       <DependentUpon>PrinterSelector.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entities\DataRow.cs" />
+    <Compile Include="Entities\ExcelSheet.cs" />
+    <Compile Include="Entities\ExcelSheetReader.cs" />
     <Compile Include="FileFinder.cs" />
     <Compile Include="Formatting\SmartTextFormatter.cs" />
     <Compile Include="Forms\About.cs">
@@ -129,13 +132,14 @@
     <Compile Include="Forms\Serienummers.Designer.cs">
       <DependentUpon>Serienummers.cs</DependentUpon>
     </Compile>
+    <Compile Include="ListItem.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Printing\PrintEngine.cs">
+    <Compile Include="Printing\LabelPrintDocument.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="PaperSelector.cs" />
@@ -173,13 +177,16 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\app.manifest" />
     <Compile Include="RecentlyOpenedFiles\RecentFile.cs" />
     <Compile Include="RecentlyOpenedFiles\RecentFiles.cs" />
     <Compile Include="RecentlyOpenedFiles\RecentFilesHandler.cs" />
     <Compile Include="Entities\SerienummerLijst.cs" />
     <Compile Include="SerienummerLijstFactory.cs" />
+    <Compile Include="SerienummerLijstFactory_oud.cs" />
     <Compile Include="Formatting\TextFormatter.cs" />
     <Compile Include="Validators\InputValidator.cs" />
     <Compile Include="Validators\IValidator.cs" />
@@ -229,12 +236,6 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <NativeReference Include="Microsoft.Windows.DebuggersAndTools, Version=1.0.0.0, ProcessorArchitecture=x86, Type=win32">
-      <Name>dbghelp.dll</Name>
-      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\dbghelp.dll</HintPath>
-    </NativeReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

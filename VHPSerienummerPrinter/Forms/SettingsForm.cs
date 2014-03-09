@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing.Printing;
-using VHPSierienummerPrinter.Properties;
 using System.Drawing.Text;
 using VHPSerienummerPrinter.Configuration;
 
@@ -23,10 +22,10 @@ namespace VHPSerienummerPrinter.Forms
         private void Settings_Load(object sender, EventArgs e)
         {
             LabelPrinterSelector.Settings = Settings.Label.PrinterSettings;
-            titelFontSelector.Font = Settings.Label.TitelFont;
+            titelFontSelector.SelectedFont = Settings.Label.TitelFont;
             titelFontSelector.OnSelectionChanged += titelFont_OnSelectionChanged;
 
-            itemFontSelector.Font = Settings.Label.ItemFont;
+            itemFontSelector.SelectedFont = Settings.Label.ItemFont;
             itemFontSelector.OnSelectionChanged += itemFont_OnSelectionChanged;
 
 
@@ -36,7 +35,7 @@ namespace VHPSerienummerPrinter.Forms
             tbxOnder.Text = Settings.Label.OnderMarge.ToString();
             tbxDragerMargeLinks.Text = Settings.Label.LinkerMargeDrager.ToString();
             tbxDragerMargeRechts.Text = Settings.Label.RechterMargeDrager.ToString();
-
+            MaxBreedteLogo.Text = Settings.Label.MaxBreedteLogo.ToString();
 
             LabelPreview.LabelMargeLinks = (float)tbxLinks.Value;
             LabelPreview.LabelMargeRechts = (float)tbxRechts.Value;
@@ -48,27 +47,28 @@ namespace VHPSerienummerPrinter.Forms
 
         void titelFont_OnSelectionChanged()
         {
-            LabelPreview.TitelFont = titelFontSelector.Font;
+            LabelPreview.TitelFont = titelFontSelector.SelectedFont;
             LabelPreview.Invalidate();
         }
         void itemFont_OnSelectionChanged()
         {
-            LabelPreview.ItemFont = itemFontSelector.Font;
+            LabelPreview.ItemFont = itemFontSelector.SelectedFont;
             LabelPreview.Invalidate();
         }
 
         private void ButtonOk_Click(object sender, EventArgs e)
         {
             Settings.Label.PrinterSettings = LabelPrinterSelector.Settings;
-            Settings.Label.BovenMarge = Convert.ToInt32(tbxBoven.Text);
-            Settings.Label.OnderMarge = Convert.ToInt32(tbxOnder.Text);
-            Settings.Label.LinkerMarge = Convert.ToInt32(tbxLinks.Text);
-            Settings.Label.RechterMarge = Convert.ToInt32(tbxRechts.Text);
-            Settings.Label.LinkerMargeDrager = float.Parse(tbxDragerMargeLinks.Text);
-            Settings.Label.RechterMargeDrager = float.Parse(tbxDragerMargeRechts.Text);
+            Settings.Label.BovenMarge = (float)tbxBoven.Value;
+            Settings.Label.OnderMarge = (float)tbxOnder.Value;
+            Settings.Label.LinkerMarge = (float)tbxLinks.Value;
+            Settings.Label.RechterMarge = (float)tbxRechts.Value;
+            Settings.Label.LinkerMargeDrager = (float)tbxDragerMargeLinks.Value;
+            Settings.Label.RechterMargeDrager = (float)tbxDragerMargeRechts.Value;
+            Settings.Label.MaxBreedteLogo = (float)MaxBreedteLogo.Value;
 
-            Settings.Label.TitelFont = titelFontSelector.Font;
-            Settings.Label.ItemFont = itemFontSelector.Font;
+            Settings.Label.TitelFont = titelFontSelector.SelectedFont;
+            Settings.Label.ItemFont = itemFontSelector.SelectedFont;
             Settings.Save();
             Close();
         }
@@ -126,6 +126,12 @@ namespace VHPSerienummerPrinter.Forms
         {
             //LabelPreview.FontFamily = DdlFonts.SelectedItem.ToString();
             //LabelPreview.Invalidate();
+        }
+
+        private void MaxBreedteLogo_ValueChanged(object sender, EventArgs e)
+        {
+            LabelPreview.MaxBreedteLogo= (float)MaxBreedteLogo.Value;
+            LabelPreview.Invalidate();
         }
 
     }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing.Printing;
-using VHPSierienummerPrinter.Properties;
 using VHPSerienummerPrinter.Configuration;
 
 namespace VHPSerienummerPrinter

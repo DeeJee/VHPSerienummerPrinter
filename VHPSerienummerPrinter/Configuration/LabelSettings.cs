@@ -11,12 +11,13 @@ namespace VHPSerienummerPrinter.Configuration
     {
         public UserPrinterSettings PrinterSettings { get; set; }
 
-        public int  LinkerMarge { get; set; }
-        public int RechterMarge { get; set; }
-        public int BovenMarge { get; set; }
-        public int OnderMarge { get; set; }
+        public float LinkerMarge { get; set; }
+        public float RechterMarge { get; set; }
+        public float BovenMarge { get; set; }
+        public float OnderMarge { get; set; }
         public float LinkerMargeDrager { get; set; }
         public float RechterMargeDrager { get; set; }
+        public float MaxBreedteLogo { get; set; }
         public FontSettings ItemFont{ get; set; }
         public FontSettings TitelFont { get; set; }
                 

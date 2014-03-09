@@ -9,7 +9,6 @@ using System.Windows.Forms;
 using VHPSerienummerPrinter.Configuration;
 using System.Drawing.Printing;
 using System.Diagnostics;
-using VHPSierienummerPrinter.Properties;
 
 namespace VHPSerienummerPrinter.Controls
 {

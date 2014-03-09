@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            VHPSerienummerPrinter.Configuration.FontSettings fontSettings1 = new VHPSerienummerPrinter.Configuration.FontSettings();
-            VHPSerienummerPrinter.Configuration.FontSettings fontSettings2 = new VHPSerienummerPrinter.Configuration.FontSettings();
+            VHPSerienummerPrinter.Configuration.FontSettings fontSettings5 = new VHPSerienummerPrinter.Configuration.FontSettings();
+            VHPSerienummerPrinter.Configuration.FontSettings fontSettings6 = new VHPSerienummerPrinter.Configuration.FontSettings();
             this.LabelOverleveringAbsoluut = new System.Windows.Forms.Label();
             this.LabelOverleveringRelatief = new System.Windows.Forms.Label();
             this.ButtonOk = new System.Windows.Forms.Button();
@@ -52,6 +52,8 @@
             this.fontDialog1 = new System.Windows.Forms.FontDialog();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabLabel = new System.Windows.Forms.TabPage();
+            this.MaxBreedteLogo = new System.Windows.Forms.NumericUpDown();
+            this.label9 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -69,6 +71,7 @@
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabLabel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MaxBreedteLogo)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.tabPrinting.SuspendLayout();
             this.SuspendLayout();
@@ -93,7 +96,7 @@
             // 
             // ButtonOk
             // 
-            this.ButtonOk.Location = new System.Drawing.Point(12, 405);
+            this.ButtonOk.Location = new System.Drawing.Point(12, 469);
             this.ButtonOk.Name = "ButtonOk";
             this.ButtonOk.Size = new System.Drawing.Size(75, 23);
             this.ButtonOk.TabIndex = 7;
@@ -103,7 +106,7 @@
             // 
             // ButtonAnnuleren
             // 
-            this.ButtonAnnuleren.Location = new System.Drawing.Point(93, 405);
+            this.ButtonAnnuleren.Location = new System.Drawing.Point(93, 469);
             this.ButtonAnnuleren.Name = "ButtonAnnuleren";
             this.ButtonAnnuleren.Size = new System.Drawing.Size(75, 23);
             this.ButtonAnnuleren.TabIndex = 8;
@@ -131,6 +134,12 @@
             // 
             // tbxOnder
             // 
+            this.tbxOnder.DecimalPlaces = 1;
+            this.tbxOnder.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.tbxOnder.Location = new System.Drawing.Point(72, 107);
             this.tbxOnder.Name = "tbxOnder";
             this.tbxOnder.Size = new System.Drawing.Size(50, 20);
@@ -139,6 +148,12 @@
             // 
             // tbxLinks
             // 
+            this.tbxLinks.DecimalPlaces = 1;
+            this.tbxLinks.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.tbxLinks.Location = new System.Drawing.Point(72, 47);
             this.tbxLinks.Name = "tbxLinks";
             this.tbxLinks.Size = new System.Drawing.Size(50, 20);
@@ -147,6 +162,12 @@
             // 
             // tbxBoven
             // 
+            this.tbxBoven.DecimalPlaces = 1;
+            this.tbxBoven.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.tbxBoven.Location = new System.Drawing.Point(72, 87);
             this.tbxBoven.Name = "tbxBoven";
             this.tbxBoven.Size = new System.Drawing.Size(50, 20);
@@ -155,6 +176,12 @@
             // 
             // tbxRechts
             // 
+            this.tbxRechts.DecimalPlaces = 1;
+            this.tbxRechts.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.tbxRechts.Location = new System.Drawing.Point(72, 67);
             this.tbxRechts.Name = "tbxRechts";
             this.tbxRechts.Size = new System.Drawing.Size(50, 20);
@@ -164,7 +191,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(157, 53);
+            this.label3.Location = new System.Drawing.Point(128, 51);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(32, 13);
             this.label3.TabIndex = 20;
@@ -173,7 +200,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(157, 73);
+            this.label4.Location = new System.Drawing.Point(128, 71);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(41, 13);
             this.label4.TabIndex = 20;
@@ -187,7 +214,7 @@
             0,
             0,
             65536});
-            this.tbxDragerMargeRechts.Location = new System.Drawing.Point(206, 69);
+            this.tbxDragerMargeRechts.Location = new System.Drawing.Point(177, 67);
             this.tbxDragerMargeRechts.Name = "tbxDragerMargeRechts";
             this.tbxDragerMargeRechts.Size = new System.Drawing.Size(50, 20);
             this.tbxDragerMargeRechts.TabIndex = 24;
@@ -201,7 +228,7 @@
             0,
             0,
             65536});
-            this.tbxDragerMargeLinks.Location = new System.Drawing.Point(206, 49);
+            this.tbxDragerMargeLinks.Location = new System.Drawing.Point(177, 47);
             this.tbxDragerMargeLinks.Name = "tbxDragerMargeLinks";
             this.tbxDragerMargeLinks.Size = new System.Drawing.Size(50, 20);
             this.tbxDragerMargeLinks.TabIndex = 25;
@@ -234,7 +261,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(157, 28);
+            this.label7.Location = new System.Drawing.Point(128, 26);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(45, 13);
             this.label7.TabIndex = 27;
@@ -244,7 +271,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(16, 28);
+            this.label6.Location = new System.Drawing.Point(16, 26);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(44, 13);
             this.label6.TabIndex = 26;
@@ -257,21 +284,47 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 8);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(392, 391);
+            this.tabControl1.Size = new System.Drawing.Size(392, 440);
             this.tabControl1.TabIndex = 26;
             // 
             // tabLabel
             // 
+            this.tabLabel.Controls.Add(this.MaxBreedteLogo);
+            this.tabLabel.Controls.Add(this.label9);
             this.tabLabel.Controls.Add(this.groupBox2);
             this.tabLabel.Controls.Add(this.LabelPreview);
             this.tabLabel.Controls.Add(this.groupBox1);
             this.tabLabel.Location = new System.Drawing.Point(4, 22);
             this.tabLabel.Name = "tabLabel";
             this.tabLabel.Padding = new System.Windows.Forms.Padding(3);
-            this.tabLabel.Size = new System.Drawing.Size(384, 365);
+            this.tabLabel.Size = new System.Drawing.Size(384, 414);
             this.tabLabel.TabIndex = 0;
             this.tabLabel.Text = "Label";
             this.tabLabel.UseVisualStyleBackColor = true;
+            // 
+            // MaxBreedteLogo
+            // 
+            this.MaxBreedteLogo.DecimalPlaces = 1;
+            this.MaxBreedteLogo.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.MaxBreedteLogo.Location = new System.Drawing.Point(197, 376);
+            this.MaxBreedteLogo.Name = "MaxBreedteLogo";
+            this.MaxBreedteLogo.Size = new System.Drawing.Size(50, 20);
+            this.MaxBreedteLogo.TabIndex = 28;
+            this.MaxBreedteLogo.ValueChanged += new System.EventHandler(this.MaxBreedteLogo_ValueChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(36, 378);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(109, 13);
+            this.label9.TabIndex = 29;
+            this.label9.Text = "Max. breedte logo";
             // 
             // groupBox2
             // 
@@ -322,10 +375,10 @@
             // 
             this.LabelPreview.DragerMargeLinks = 3.3F;
             this.LabelPreview.DragerMargeRechts = 3.3F;
-            fontSettings1.Name = "Arial";
-            fontSettings1.Size = 6F;
-            fontSettings1.Style = System.Drawing.FontStyle.Bold;
-            this.LabelPreview.ItemFont = fontSettings1;
+            fontSettings5.Name = "Arial";
+            fontSettings5.Size = 6F;
+            fontSettings5.Style = System.Drawing.FontStyle.Bold;
+            this.LabelPreview.ItemFont = fontSettings5;
             this.LabelPreview.LabelMargeBoven = 1F;
             this.LabelPreview.LabelMargeLinks = 2F;
             this.LabelPreview.LabelMargeOnder = 1F;
@@ -335,10 +388,10 @@
             this.LabelPreview.Size = new System.Drawing.Size(340, 92);
             this.LabelPreview.TabIndex = 22;
             this.LabelPreview.Text = "previewControl1";
-            fontSettings2.Name = "Arial";
-            fontSettings2.Size = 9F;
-            fontSettings2.Style = System.Drawing.FontStyle.Bold;
-            this.LabelPreview.TitelFont = fontSettings2;
+            fontSettings6.Name = "Arial";
+            fontSettings6.Size = 9F;
+            fontSettings6.Style = System.Drawing.FontStyle.Bold;
+            this.LabelPreview.TitelFont = fontSettings6;
             // 
             // tabPrinting
             // 
@@ -346,7 +399,7 @@
             this.tabPrinting.Location = new System.Drawing.Point(4, 22);
             this.tabPrinting.Name = "tabPrinting";
             this.tabPrinting.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPrinting.Size = new System.Drawing.Size(384, 365);
+            this.tabPrinting.Size = new System.Drawing.Size(384, 455);
             this.tabPrinting.TabIndex = 1;
             this.tabPrinting.Text = "Printer";
             this.tabPrinting.UseVisualStyleBackColor = true;
@@ -363,7 +416,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(436, 447);
+            this.ClientSize = new System.Drawing.Size(436, 511);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.ButtonAnnuleren);
             this.Controls.Add(this.ButtonOk);
@@ -380,6 +433,8 @@
             this.groupBox1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabLabel.ResumeLayout(false);
+            this.tabLabel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MaxBreedteLogo)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.tabPrinting.ResumeLayout(false);
@@ -418,5 +473,7 @@
         private VHPSierienummerPrinter.Controls.FontSelector itemFontSelector;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.NumericUpDown MaxBreedteLogo;
+        private System.Windows.Forms.Label label9;
     }
 }

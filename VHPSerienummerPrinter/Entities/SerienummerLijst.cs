@@ -12,8 +12,8 @@ namespace VHPSerienummerPrinter
 
         public string Product { get; set; }
 
-        public int StartIndex { get; set; }
-        public int EindIndex { get; set; }
+        public int? StartIndex { get; set; }
+        public int? EindIndex { get; set; }
 
         public string Item1Label { get; set; }
         public string Item2Label { get; set; }
@@ -45,22 +45,16 @@ namespace VHPSerienummerPrinter
 
         private void BepaalSelectie()
         {
-            //geen selectie gemaakt: alles uitprinten
-            if (StartIndex == -1 && EindIndex == -1)
-            {
-                _selectie = _labels;
-            }
-
             //er is geen selectie gemaakt voor het eerste label dat moet worden geprint: neem het eerste label in de lijst
-            if (StartIndex == -1)
+            if (!StartIndex.HasValue  )
                 StartIndex = 0;
 
             //er is geen selectie gemaakt voor het laatste label dat moet worden geprint: neem het laatste label in de lijst
-            if (EindIndex == -1)
+            if (!EindIndex.HasValue)
                 EindIndex = _labels.Count - 1;
 
             List<SerienummerInfo> list = new List<SerienummerInfo>();
-            for (int index = StartIndex; index <= EindIndex; index++)
+            for (int index = StartIndex.GetValueOrDefault(); index <= EindIndex.GetValueOrDefault(); index++)
             {
                 SerienummerInfo info = _labels[index];
                 list.Add(info);
