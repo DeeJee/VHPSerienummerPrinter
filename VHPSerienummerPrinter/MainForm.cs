@@ -214,5 +214,32 @@ namespace VHPSerienummerPrinter
             About about=new About();
             about.ShowDialog();
         }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            openFileDialog.Filter = "Csv Files (*.csv)|*.csv|All Files (*.*)|*.*";
+            if (openFileDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                LoadSerienummersForm2(openFileDialog.FileName);
+                PrintingEnabled(true);
+            }    
+        }
+
+        private void LoadSerienummersForm2(string path)
+        {
+            Serienummers2 serienummers = new Serienummers2(path);
+            if (serienummers.LoadSuccesful)
+            {
+                serienummers.MdiParent = this;
+                serienummers.FormClosed += new FormClosedEventHandler(labels_FormClosed);
+                serienummers.Show();
+            }
+            else
+            {
+                serienummers.Dispose();
+            }
+        }
     }
 }

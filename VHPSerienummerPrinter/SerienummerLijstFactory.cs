@@ -36,6 +36,7 @@ namespace VHPSerienummerPrinter
                 serienummerLijst.Item2Label = sheet.Item2Label;
                 serienummerLijst.Item3Label = sheet.Item3Label;
                 serienummerLijst.Item4Label = sheet.Item4Label;
+                serienummerLijst.Data = sheet.Data;
 
                 //labels bepalen
                 foreach (DataRow row in sheet.Rows)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 
@@ -19,6 +20,7 @@ namespace VHPSerienummerPrinter
         public string Item2Label { get; set; }
         public string Item3Label { get; set; }
         public string Item4Label { get; set; }
+        public DataTable Data{ get; set; }
 
         private List<SerienummerInfo> _labels;
         public List<SerienummerInfo> Labels

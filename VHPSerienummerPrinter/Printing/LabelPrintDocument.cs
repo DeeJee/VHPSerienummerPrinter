@@ -66,7 +66,7 @@ namespace VHPSerienummerPrinter.Printing
 
         private Font _titleFont;
         private Font _itemFont;
-        
+
         private SerienummerLijst stuklijst;
         public LabelPrintDocument(SerienummerLijst stuklijst)
         {
@@ -118,7 +118,7 @@ namespace VHPSerienummerPrinter.Printing
         private void PrintSerienummerLabel(Graphics g, SerienummerInfo label)
         {
             var breedteLinkerKolom = BepaalBreedte(g, label);
-            RectangleF rect = PrintVHPLogo(g, DragerMargeLinks);
+            RectangleF rect = PrintLogo(g, DragerMargeLinks);
             rect = PrintString(stuklijst.Product, _titleFont, g, rect.Right + margeTussenLogoEnTekst, rect.Top);
 
             //linker kolom linker label
@@ -137,7 +137,7 @@ namespace VHPSerienummerPrinter.Printing
             if (stuklijst.PrintCeLogo)
                 PrintCELogo(g, breedteLabel + DragerMargeLinks, hoogteLabel);
 
-            rect = PrintVHPLogo(g, DragerMargeLinks + breedteLabel + DragerMargeMidden);
+            rect = PrintLogo(g, DragerMargeLinks + breedteLabel + DragerMargeMidden);
             rect = PrintString(stuklijst.Product, _titleFont, g, rect.Right + margeTussenLogoEnTekst, rect.Top);
 
             //linker kolom rechter label
@@ -210,45 +210,54 @@ namespace VHPSerienummerPrinter.Printing
             g.DrawImage(Afbeeldingen.CE_symbool, left, top, width, height);
         }
 
-        private RectangleF PrintVHPLogo(Graphics g, float leftOffsetLabel)
+        private RectangleF PrintLogo(Graphics g, float leftOffsetLabel)
         {
-            Bitmap logo;
-
-            if (!string.IsNullOrEmpty(stuklijst.LogoImage))
+            Bitmap logo = null;
+            try
             {
-                string file = System.Reflection.Assembly.GetExecutingAssembly().Location;
-                string theDirectory = Path.GetDirectoryName(file);
-                string path = Path.Combine(theDirectory, stuklijst.LogoImage);
-                if (File.Exists(path))
+                if (!string.IsNullOrEmpty(stuklijst.LogoImage))
                 {
-                    logo = (Bitmap)Bitmap.FromFile(path);
+                    string file = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                    string theDirectory = Path.GetDirectoryName(file);
+                    string path = Path.Combine(theDirectory, stuklijst.LogoImage);
+                    if (File.Exists(path))
+                    {
+                        logo = (Bitmap)Bitmap.FromFile(path);
+                    }
+                    else
+                    {
+                        logo = Afbeeldingen.Logo_CDR13;
+                    }
                 }
                 else
                 {
                     logo = Afbeeldingen.Logo_CDR13;
-                }                
+                }
+
+                //95 x 212 px
+                float leftMargin = leftOffsetLabel + LabelMargeLinks;
+                float height = hoogteLabel - LabelMargeBoven - LabelMargeOnder;
+                height = height * schaalFactor;
+                //schalen met behoud van aspect ratio
+                var width = ((float)height / (float)logo.Height) * (float)logo.Width;
+
+                float topMargin = LabelMargeBoven + (hoogteLabel - height) / 2;
+                g.DrawImage(logo, leftMargin, topMargin, width, height);
+
+                RectangleF rect = new RectangleF();
+                rect.Height = height;
+                rect.Width = width;
+                rect.X = leftMargin;
+                rect.Y = topMargin;
+                return rect;
             }
-            else
+            finally
             {
-                logo = Afbeeldingen.Logo_CDR13;
+                if (logo != null)
+                {
+                    logo.Dispose();
+                }
             }
-
-            //95 x 212 px
-            float leftMargin = leftOffsetLabel + LabelMargeLinks;
-            float height = hoogteLabel - LabelMargeBoven - LabelMargeOnder;
-            height = height * schaalFactor;
-            //schalen met behoud van aspect ratio
-            var width = ((float)height / (float)logo.Height) * (float)logo.Width;
-
-            float topMargin = LabelMargeBoven + (hoogteLabel - height) / 2;
-            g.DrawImage(logo, leftMargin, topMargin, width, height);
-
-            RectangleF rect = new RectangleF();
-            rect.Height = height;
-            rect.Width = width;
-            rect.X = leftMargin;
-            rect.Y = topMargin;
-            return rect;
         }
 
         private void Initialize(PrintPageEventArgs e)
