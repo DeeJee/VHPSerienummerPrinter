@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Drawing;
-
+﻿using System.Drawing;
 namespace VHPSerienummerPrinter.Configuration
 {
     public class FontSettings
@@ -23,6 +18,11 @@ namespace VHPSerienummerPrinter.Configuration
         public override string ToString()
         {
             return string.Format("{0}, {1}pt, {2}",Name, Size, Style);
+        }
+
+        public Font ToFont()
+        {
+            return new Font(Name, Size, Style);
         }
     }
 }

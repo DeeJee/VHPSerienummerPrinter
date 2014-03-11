@@ -52,11 +52,14 @@ namespace VHPSerienummerPrinter.Entities
                 List<string> lines = new List<string>();
 
                 //csv bestand inlezen
-                using (StreamReader rdr = new StreamReader(filename))
+                using (FileStream stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                 {
-                    while (!rdr.EndOfStream)
+                    using (StreamReader rdr = new StreamReader(stream))
                     {
-                        lines.Add(rdr.ReadLine().Replace("\"", string.Empty));
+                        while (!rdr.EndOfStream)
+                        {
+                            lines.Add(rdr.ReadLine().Replace("\"", string.Empty));
+                        }
                     }
                 }
 
@@ -130,11 +133,14 @@ namespace VHPSerienummerPrinter.Entities
                     Sheet.Data.Rows.Add(row);
                 }
 
-                FileFinder finder = new FileFinder();
-                if (!finder.Find(Sheet.Logo))
+                if (!string.IsNullOrEmpty(Sheet.Logo))
                 {
-                    Message = finder.Message;
-                    return false;
+                    FileFinder finder = new FileFinder();
+                    if (!finder.Find(Sheet.Logo))
+                    {
+                        Message = finder.Message;
+                        return false;
+                    }
                 }
                 return true;
             }

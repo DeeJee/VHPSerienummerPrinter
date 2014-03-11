@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Drawing.Printing;
 using System.Drawing.Text;
 using VHPSerienummerPrinter.Configuration;
+using VHPSerienummerPrinter.Converters;
 
 namespace VHPSerienummerPrinter.Forms
 {
@@ -47,12 +48,12 @@ namespace VHPSerienummerPrinter.Forms
 
         void titelFont_OnSelectionChanged()
         {
-            LabelPreview.TitelFont = titelFontSelector.SelectedFont;
+            LabelPreview.TitelFont = titelFontSelector.SelectedFont.ToFont();
             LabelPreview.Invalidate();
         }
         void itemFont_OnSelectionChanged()
         {
-            LabelPreview.ItemFont = itemFontSelector.SelectedFont;
+            LabelPreview.ItemFont = itemFontSelector.SelectedFont.ToFont();
             LabelPreview.Invalidate();
         }
 

@@ -17,6 +17,7 @@ using VHPSerienummerPrinter.Validators;
 using VHPSerienummerPrinter.Printing;
 using VHPSerienummerPrinter.Configuration;
 using VHPSerienummerPrinter.Entities;
+using VHPSerienummerPrinter.Converters;
 
 namespace VHPSerienummerPrinter
 {
@@ -33,34 +34,10 @@ namespace VHPSerienummerPrinter
 
             reader = new ExcelSheetReader();
             factory = new SerienummerLijstFactory();
-            
+
             Init(path);
         }
 
-        //private bool Init_oud(SerienummerLijstFactory_oud factory, string path)
-        //{
-
-        //    bool gelukt = factory.Create(path);
-        //    if (gelukt)
-        //    {
-        //        serienummers = factory.serienummerLijst;
-        //        LoadSuccesful = true;
-        //    }
-        //    else
-        //    {
-        //        DialogResult result = MessageBox.Show(factory.Message, "problemen", MessageBoxButtons.RetryCancel);
-        //        if (result == DialogResult.Retry)
-        //        {
-        //            gelukt = Init(factory, path);
-        //        }
-        //        else
-        //        {
-        //            //annuleren
-        //            LoadSuccesful = false;
-        //        }
-        //    }
-        //    return gelukt;
-        //}
         private bool Init(string path)
         {
             bool gelukt = reader.Read(path);
@@ -68,6 +45,7 @@ namespace VHPSerienummerPrinter
             {
                 factory.Create(reader.Sheet);
                 serienummers = factory.serienummerLijst;
+
                 LoadSuccesful = true;
             }
             else
@@ -99,8 +77,9 @@ namespace VHPSerienummerPrinter
             SetSelection();
 
             LabelPrintDocument engine = new LabelPrintDocument(serienummers);
-            engine.TitelFont = Settings.Label.TitelFont;
-            engine.ItemFont = Settings.Label.ItemFont;
+            engine.TitelFont = Settings.Label.TitelFont.ToFont();
+            engine.ItemFont = Settings.Label.ItemFont.ToFont();
+            engine.Product = serienummers.Product;
             pageDialog1.Document = engine;
 
             //standaard printer instellen
@@ -121,6 +100,38 @@ namespace VHPSerienummerPrinter
                 }
             }
             else
+            {
+                engine.Print();
+            }
+        }
+
+        public void PrintPreview()
+        {
+            if (!ValidateInput())
+            {
+                return;
+            }
+
+            ///setup page size
+            PageSetupDialog pageDialog1 = new PageSetupDialog();
+
+            SetSelection();
+
+            LabelPrintDocument engine = new LabelPrintDocument(serienummers);
+            engine.TitelFont = Settings.Label.TitelFont.ToFont();
+            engine.ItemFont = Settings.Label.ItemFont.ToFont();
+            engine.Product = serienummers.Product;
+            pageDialog1.Document = engine;
+
+            //standaard printer instellen
+            engine.PrinterSettings.PrinterName = Settings.Label.PrinterSettings.Printer;
+
+            //standaard papier instellen
+            SelectCustomPaper(engine, pageDialog1);
+
+            PrintPreviewDialog printPreviewDialog1 = new PrintPreviewDialog(); // instantiate new print preview dialog
+            printPreviewDialog1.Document = engine;
+            if (printPreviewDialog1.ShowDialog() == DialogResult.OK)
             {
                 engine.Print();
             }
@@ -164,7 +175,7 @@ namespace VHPSerienummerPrinter
             return isValid;
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
+        private void Serienummers_Load(object sender, EventArgs e)
         {
             LabelProduct.Text = serienummers.Product;
             LabelAantalItems.Text = serienummers.Labels.Count.ToString();
@@ -174,47 +185,19 @@ namespace VHPSerienummerPrinter
             //    MessageBox.Show(string.Format("Kan logo niet vinden: {0}", serienummers.LogoImage), "Bestand niet gevonden", MessageBoxButtons.OK, MessageBoxIcon.Error);
             //}
 
-
             FillComboBox(0, DdlVan);
             FillComboBox(0, DdlTotEnMet);
 
-            //DdlVan.DataSource = new BindingSource( dict,null);
-            DdlVan.DisplayMember = "Text";
-            DdlVan.ValueMember = "Value";
-            //DdlTotEnMet.DataSource = new BindingSource(dict, null);
-            DdlTotEnMet.DisplayMember = "Text";
-            DdlTotEnMet.ValueMember = "Value";
-        }
-
-        public void PrintPreview()
-        {
-            if (!ValidateInput())
-            {
-                return;
-            }
-
-            ///setup page size
-            PageSetupDialog pageDialog1 = new PageSetupDialog();
-
-            SetSelection();
-
-            LabelPrintDocument engine = new LabelPrintDocument(serienummers);
-            engine.TitelFont = Settings.Label.TitelFont;
-            engine.ItemFont = Settings.Label.ItemFont;
-            pageDialog1.Document = engine;
-
-            //standaard printer instellen
-            engine.PrinterSettings.PrinterName = Settings.Label.PrinterSettings.Printer;
-
-            //standaard papier instellen
-            SelectCustomPaper(engine, pageDialog1);
-
-            PrintPreviewDialog printPreviewDialog1 = new PrintPreviewDialog(); // instantiate new print preview dialog
-            printPreviewDialog1.Document = engine;
-            if (printPreviewDialog1.ShowDialog() == DialogResult.OK)
-            {
-                engine.Print();
-            }
+            LabelPreview.ItemFont = Settings.Label.ItemFont.ToFont();
+            LabelPreview.TitelFont = Settings.Label.TitelFont.ToFont();
+            LabelPreview.LabelMargeBoven = Settings.Label.BovenMarge;
+            LabelPreview.LabelMargeOnder = Settings.Label.OnderMarge;
+            LabelPreview.LabelMargeLinks = Settings.Label.LinkerMarge;
+            LabelPreview.LabelMargeRechts = Settings.Label.RechterMarge;
+            LabelPreview.DragerMargeLinks = Settings.Label.LinkerMargeDrager;
+            LabelPreview.DragerMargeRechts = Settings.Label.RechterMargeDrager;
+            LabelPreview.MaxBreedteLogo = Settings.Label.MaxBreedteLogo;
+            LabelPreview.Product = serienummers.Product; ;
         }
 
         private void AddToRecentlyOpenedFiles(string fileName)
@@ -258,6 +241,8 @@ namespace VHPSerienummerPrinter
                 var label = serienummers.Labels[index];
                 comboBox.Items.Add(new ListItem(label.Item2, index));
             }
+            comboBox.DisplayMember = "Text";
+            comboBox.ValueMember = "Value";
         }
 
         private void TotEnMetSelectedIndexChanged(object sender, EventArgs e)
@@ -303,21 +288,6 @@ namespace VHPSerienummerPrinter
         private void Afdrukken_Click(object sender, EventArgs e)
         {
             Print();
-        }
-
-        private void Serienummers_Paint(object sender, PaintEventArgs e)
-        {
-            LabelPrintDocument engine = new LabelPrintDocument(serienummers);
-            engine.TitelFont = Settings.Label.TitelFont;
-            engine.ItemFont = Settings.Label.ItemFont;
-            try
-            {
-                engine.PrintPreviewImage(e.Graphics);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
+        }             
     }
 }

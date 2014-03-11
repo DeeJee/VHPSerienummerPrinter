@@ -41,6 +41,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.LabelAantalInSelectie = new System.Windows.Forms.Label();
             this.Voorbeeld = new System.Windows.Forms.Button();
+            this.LabelPreview = new VhpControls.PreviewControl();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -164,11 +165,30 @@
             this.Voorbeeld.UseVisualStyleBackColor = true;
             this.Voorbeeld.Click += new System.EventHandler(this.Voorbeeld_Click);
             // 
+            // LabelPreview
+            // 
+            this.LabelPreview.DragerMargeLinks = 0F;
+            this.LabelPreview.DragerMargeRechts = 0F;
+            this.LabelPreview.ItemFont = new System.Drawing.Font("Arial", 6F, System.Drawing.FontStyle.Bold);
+            this.LabelPreview.LabelMargeBoven = 0F;
+            this.LabelPreview.LabelMargeLinks = 0F;
+            this.LabelPreview.LabelMargeOnder = 0F;
+            this.LabelPreview.LabelMargeRechts = 0F;
+            this.LabelPreview.Location = new System.Drawing.Point(0, 0);
+            this.LabelPreview.MaxBreedteLogo = 0F;
+            this.LabelPreview.Name = "LabelPreview";
+            this.LabelPreview.Product = null;
+            this.LabelPreview.Size = new System.Drawing.Size(340, 92);
+            this.LabelPreview.TabIndex = 23;
+            this.LabelPreview.Text = "previewControl1";
+            this.LabelPreview.TitelFont = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold);
+            // 
             // Serienummers
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(364, 375);
+            this.ClientSize = new System.Drawing.Size(341, 329);
+            this.Controls.Add(this.LabelPreview);
             this.Controls.Add(this.Voorbeeld);
             this.Controls.Add(this.LabelAantalInSelectie);
             this.Controls.Add(this.groupBox1);
@@ -180,8 +200,7 @@
             this.Name = "Serienummers";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Serienummerlabels";
-            this.Load += new System.EventHandler(this.MainForm_Load);
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.Serienummers_Paint);
+            this.Load += new System.EventHandler(this.Serienummers_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -204,6 +223,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label LabelAantalInSelectie;
         private System.Windows.Forms.Button Voorbeeld;
+        private VhpControls.PreviewControl LabelPreview;
     }
 }
 

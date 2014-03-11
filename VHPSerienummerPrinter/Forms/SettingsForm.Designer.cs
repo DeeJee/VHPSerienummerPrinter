@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            VHPSerienummerPrinter.Configuration.FontSettings fontSettings5 = new VHPSerienummerPrinter.Configuration.FontSettings();
-            VHPSerienummerPrinter.Configuration.FontSettings fontSettings6 = new VHPSerienummerPrinter.Configuration.FontSettings();
             this.LabelOverleveringAbsoluut = new System.Windows.Forms.Label();
             this.LabelOverleveringRelatief = new System.Windows.Forms.Label();
             this.ButtonOk = new System.Windows.Forms.Button();
@@ -57,10 +55,10 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.tabPrinting = new System.Windows.Forms.TabPage();
             this.itemFontSelector = new VHPSierienummerPrinter.Controls.FontSelector();
             this.titelFontSelector = new VHPSierienummerPrinter.Controls.FontSelector();
             this.LabelPreview = new VhpControls.PreviewControl();
-            this.tabPrinting = new System.Windows.Forms.TabPage();
             this.LabelPrinterSelector = new VHPSerienummerPrinter.Controls.PrinterSelector();
             ((System.ComponentModel.ISupportInitialize)(this.tbxOnder)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbxLinks)).BeginInit();
@@ -314,6 +312,11 @@
             this.MaxBreedteLogo.Name = "MaxBreedteLogo";
             this.MaxBreedteLogo.Size = new System.Drawing.Size(50, 20);
             this.MaxBreedteLogo.TabIndex = 28;
+            this.MaxBreedteLogo.Value = new decimal(new int[] {
+            7,
+            0,
+            0,
+            0});
             this.MaxBreedteLogo.ValueChanged += new System.EventHandler(this.MaxBreedteLogo_ValueChanged);
             // 
             // label9
@@ -357,6 +360,17 @@
             this.label5.TabIndex = 29;
             this.label5.Text = "Titel";
             // 
+            // tabPrinting
+            // 
+            this.tabPrinting.Controls.Add(this.LabelPrinterSelector);
+            this.tabPrinting.Location = new System.Drawing.Point(4, 22);
+            this.tabPrinting.Name = "tabPrinting";
+            this.tabPrinting.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPrinting.Size = new System.Drawing.Size(384, 414);
+            this.tabPrinting.TabIndex = 1;
+            this.tabPrinting.Text = "Printer";
+            this.tabPrinting.UseVisualStyleBackColor = true;
+            // 
             // itemFontSelector
             // 
             this.itemFontSelector.Location = new System.Drawing.Point(45, 55);
@@ -375,34 +389,18 @@
             // 
             this.LabelPreview.DragerMargeLinks = 3.3F;
             this.LabelPreview.DragerMargeRechts = 3.3F;
-            fontSettings5.Name = "Arial";
-            fontSettings5.Size = 6F;
-            fontSettings5.Style = System.Drawing.FontStyle.Bold;
-            this.LabelPreview.ItemFont = fontSettings5;
+            this.LabelPreview.ItemFont = new System.Drawing.Font("Arial", 6F, System.Drawing.FontStyle.Bold);
             this.LabelPreview.LabelMargeBoven = 1F;
-            this.LabelPreview.LabelMargeLinks = 2F;
+            this.LabelPreview.LabelMargeLinks = 417F;
             this.LabelPreview.LabelMargeOnder = 1F;
             this.LabelPreview.LabelMargeRechts = 2F;
             this.LabelPreview.Location = new System.Drawing.Point(20, 13);
+            this.LabelPreview.MaxBreedteLogo = 0F;
             this.LabelPreview.Name = "LabelPreview";
             this.LabelPreview.Size = new System.Drawing.Size(340, 92);
             this.LabelPreview.TabIndex = 22;
             this.LabelPreview.Text = "previewControl1";
-            fontSettings6.Name = "Arial";
-            fontSettings6.Size = 9F;
-            fontSettings6.Style = System.Drawing.FontStyle.Bold;
-            this.LabelPreview.TitelFont = fontSettings6;
-            // 
-            // tabPrinting
-            // 
-            this.tabPrinting.Controls.Add(this.LabelPrinterSelector);
-            this.tabPrinting.Location = new System.Drawing.Point(4, 22);
-            this.tabPrinting.Name = "tabPrinting";
-            this.tabPrinting.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPrinting.Size = new System.Drawing.Size(384, 455);
-            this.tabPrinting.TabIndex = 1;
-            this.tabPrinting.Text = "Printer";
-            this.tabPrinting.UseVisualStyleBackColor = true;
+            this.LabelPreview.TitelFont = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold);
             // 
             // LabelPrinterSelector
             // 

@@ -108,6 +108,7 @@
     <Compile Include="Controls\PrinterSelector.Designer.cs">
       <DependentUpon>PrinterSelector.cs</DependentUpon>
     </Compile>
+    <Compile Include="Converters\PixelConverter.cs" />
     <Compile Include="Entities\DataRow.cs" />
     <Compile Include="Entities\ExcelSheet.cs" />
     <Compile Include="Entities\ExcelSheetReader.cs" />
@@ -118,12 +119,6 @@
     </Compile>
     <Compile Include="Forms\About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Serienummers2.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Serienummers2.Designer.cs">
-      <DependentUpon>Serienummers2.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\SettingsForm.cs">
       <SubType>Form</SubType>
@@ -153,6 +148,7 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Printing\LabelPaginator.cs" />
+    <Compile Include="Printing\LabelStencil.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Controls\FontSelector.resx">
@@ -160,10 +156,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\PrinterSelector.resx">
       <DependentUpon>PrinterSelector.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Serienummers2.resx">
-      <DependentUpon>Serienummers2.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
