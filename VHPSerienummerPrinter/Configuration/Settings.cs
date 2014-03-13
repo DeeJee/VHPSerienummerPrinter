@@ -43,10 +43,10 @@ namespace VHPSerienummerPrinter.Configuration
             if (File.Exists(SettingsFile))
             {
                 Log.Info("Loading file {0}", SettingsFile);
-                using (FileStream file = File.OpenRead(SettingsFile))
+                using (FileStream stream = new FileStream(SettingsFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                 {
-                    XmlSerializer serializer = new XmlSerializer(typeof(UserSettings));
-                    settings = (UserSettings)serializer.Deserialize(file);
+                    XmlSerializer serializer = new XmlSerializer(typeof(UserSettings));                    
+                    settings = (UserSettings)serializer.Deserialize(stream);
                 }
                 Log.Info("Settingsfile loaded");
             }

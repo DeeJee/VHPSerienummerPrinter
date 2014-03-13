@@ -67,7 +67,7 @@ namespace VHPSierienummerPrinter.Controls
             get
             {
                 string font = Fonts.SelectedItem.ToString();
-                float size = float.Parse((string)Sizes.SelectedItem);
+                float size = float.Parse((string)Sizes.Text);
                 FontStyle style = (FontStyle)Enum.Parse(typeof(FontStyle), (string)Styles.SelectedItem);
                 return new FontSettings(font, size, style);
             }

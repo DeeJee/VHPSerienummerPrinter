@@ -35,8 +35,9 @@
             // 
             // Fonts
             // 
+            this.Fonts.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Fonts.FormattingEnabled = true;
-            this.Fonts.Location = new System.Drawing.Point(4, 4);
+            this.Fonts.Location = new System.Drawing.Point(4, 3);
             this.Fonts.Name = "Fonts";
             this.Fonts.Size = new System.Drawing.Size(137, 21);
             this.Fonts.TabIndex = 0;
@@ -44,6 +45,7 @@
             // 
             // Sizes
             // 
+            this.Sizes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Sizes.FormattingEnabled = true;
             this.Sizes.Items.AddRange(new object[] {
             "6",
@@ -69,6 +71,7 @@
             // 
             // Styles
             // 
+            this.Styles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Styles.FormattingEnabled = true;
             this.Styles.Location = new System.Drawing.Point(198, 3);
             this.Styles.Name = "Styles";
