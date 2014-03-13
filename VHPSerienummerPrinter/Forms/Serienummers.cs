@@ -64,6 +64,32 @@ namespace VHPSerienummerPrinter
             return gelukt;
         }
 
+        private void Serienummers_Load(object sender, EventArgs e)
+        {
+            LabelProduct.Text = serienummers.Product;
+            LabelAantalItems.Text = serienummers.Labels.Count.ToString();
+
+            //if (!File.Exists(serienummers.LogoImage))
+            //{
+            //    MessageBox.Show(string.Format("Kan logo niet vinden: {0}", serienummers.LogoImage), "Bestand niet gevonden", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
+
+            FillComboBox(0, DdlVan);
+            FillComboBox(0, DdlTotEnMet);
+
+            LabelPreview.ItemFont = Settings.Label.ItemFont.ToFont();
+            LabelPreview.TitelFont = Settings.Label.TitelFont.ToFont();
+            LabelPreview.LabelMargeBoven = Settings.Label.BovenMarge;
+            LabelPreview.LabelMargeOnder = Settings.Label.OnderMarge;
+            LabelPreview.LabelMargeLinks = Settings.Label.LinkerMarge;
+            LabelPreview.LabelMargeRechts = Settings.Label.RechterMarge;
+            LabelPreview.DragerMargeLinks = Settings.Label.LinkerMargeDrager;
+            LabelPreview.DragerMargeRechts = Settings.Label.RechterMargeDrager;
+            LabelPreview.MaxBreedteLogo = Settings.Label.MaxBreedteLogo;
+            LabelPreview.Product = serienummers.Product;
+            LabelPreview.LogoImage = serienummers.LogoImage;
+        }
+
         public void Print()
         {
             if (!ValidateInput())
@@ -175,30 +201,7 @@ namespace VHPSerienummerPrinter
             return isValid;
         }
 
-        private void Serienummers_Load(object sender, EventArgs e)
-        {
-            LabelProduct.Text = serienummers.Product;
-            LabelAantalItems.Text = serienummers.Labels.Count.ToString();
-
-            //if (!File.Exists(serienummers.LogoImage))
-            //{
-            //    MessageBox.Show(string.Format("Kan logo niet vinden: {0}", serienummers.LogoImage), "Bestand niet gevonden", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //}
-
-            FillComboBox(0, DdlVan);
-            FillComboBox(0, DdlTotEnMet);
-
-            LabelPreview.ItemFont = Settings.Label.ItemFont.ToFont();
-            LabelPreview.TitelFont = Settings.Label.TitelFont.ToFont();
-            LabelPreview.LabelMargeBoven = Settings.Label.BovenMarge;
-            LabelPreview.LabelMargeOnder = Settings.Label.OnderMarge;
-            LabelPreview.LabelMargeLinks = Settings.Label.LinkerMarge;
-            LabelPreview.LabelMargeRechts = Settings.Label.RechterMarge;
-            LabelPreview.DragerMargeLinks = Settings.Label.LinkerMargeDrager;
-            LabelPreview.DragerMargeRechts = Settings.Label.RechterMargeDrager;
-            LabelPreview.MaxBreedteLogo = Settings.Label.MaxBreedteLogo;
-            LabelPreview.Product = serienummers.Product; ;
-        }
+        
 
         private void AddToRecentlyOpenedFiles(string fileName)
         {

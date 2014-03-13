@@ -207,7 +207,6 @@ namespace VHPSerienummerPrinter.Printing
             }
         }
 
-        
         private SizeF ScaleImage(Bitmap logo, float maxHeight)
         {
             SizeF imageSize = new SizeF();
@@ -238,18 +237,6 @@ namespace VHPSerienummerPrinter.Printing
             RectangleF rect = new RectangleF(new PointF { X = left, Y = top }, g.MeasureString(text, font));
             return rect;
         }
-
-        ///// <summary>
-        ///// Vertaalt lengte in mm naar pixels
-        ///// </summary>
-        ///// <param name="lengte">de lengte in mm</param>
-        ///// <returns></returns>
-        //private int ToCentiInches(float lengteInMilimeter)
-        //{
-        //    float lengteInInch = lengteInMilimeter / (float)25.4;
-
-        //    return (int)(lengteInInch * 100);
-        //}
 
         public void PrintPreviewImage(Graphics g, SerienummerInfo label)
         {

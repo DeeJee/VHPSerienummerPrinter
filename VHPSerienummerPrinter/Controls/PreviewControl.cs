@@ -17,10 +17,6 @@ namespace VhpControls
     {
         LabelStencil stencil = new LabelStencil();
 
-        //private float breedteDrager = 338.84F;  //85.1mm
-        //private float breedteLabel = 149.72F;   //38mm
-
-
         private float _labelMargeLinks;
         private float _labelMargeLinksInPixels;
         public float LabelMargeLinks
@@ -122,7 +118,17 @@ namespace VhpControls
             get { return stencil.ItemFont; }
             set { stencil.ItemFont = value; }
         }
-        public string Product { get; set; }
+        public string Product
+        {
+            get { return stencil.Product; }
+            set { stencil.Product = value; }
+        }
+
+        public string LogoImage
+        {
+            get { return stencil.LogoImage; }
+            set { stencil.LogoImage = value; }
+        }
 
         public PreviewControl()
         {
@@ -131,7 +137,6 @@ namespace VhpControls
             stencil.Item2Label = "SN";
             stencil.Item3Label = "HW";
             stencil.Item4Label = "FW";
-            stencil.LogoImage = "";
             stencil.PrintCeLogo = true;
             stencil.LabelMargeBoven = PixelConverter.MilimeterToPixels(Settings.Label.BovenMarge);
             stencil.LabelMargeOnder = PixelConverter.MilimeterToPixels(Settings.Label.OnderMarge);
@@ -146,7 +151,6 @@ namespace VhpControls
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-            stencil.Product = Product;
             SerienummerInfo label = new SerienummerInfo("", "", "",
                 "Lightning Mini 10",
                 "080808LS0001",
@@ -154,7 +158,5 @@ namespace VhpControls
                 "V1.0.0");
             stencil.PrintPreviewImage(e.Graphics, label);
         }
-
-        
     }
 }

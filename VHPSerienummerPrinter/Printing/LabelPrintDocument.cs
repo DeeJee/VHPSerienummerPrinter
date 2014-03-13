@@ -134,7 +134,7 @@ namespace VHPSerienummerPrinter.Printing
         public void PrintPreviewImage(Graphics g)
         {
             SerienummerInfo label = stuklijst.Labels[0];
-            stencil.Product = "Lightning series";
+            stencil.Product = stuklijst.Product;
             stencil.PrintPreviewImage(g, label);
         }
     }

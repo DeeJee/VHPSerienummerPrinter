@@ -43,9 +43,6 @@ namespace VHPSerienummerPrinter
                 {
                     serienummerLijst.AddSerienummer(row.Jaar, row.Batch, row.VolgNummer, row.Item1, row.Item2, row.Item3, row.Item4);
                 }
-
-                FileFinder finder = new FileFinder();
-                finder.Find(serienummerLijst.LogoImage);
             }
             catch (IOException ex)
             {
